@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://bvog7xiljehg2"]
+
+[ext_resource type="Texture2D" uid="uid://fusrhti4l6xj" path="res://assets/fight_bg.png" id="1_q3qwi"]
+[ext_resource type="Script" path="res://scenes/fight/slots.gd" id="2_5g0xm"]
+[ext_resource type="Texture2D" uid="uid://c70wd3t1n5nac" path="res://assets/cursor.png" id="3_hlny7"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="FightBg" type="Sprite2D" parent="."]
+texture = ExtResource("1_q3qwi")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="slots" type="Node2D" parent="."]
+script = ExtResource("2_5g0xm")
+
+[node name="Cursor" type="Sprite2D" parent="slots"]
+texture = ExtResource("3_hlny7")
