@@ -1,7 +1,8 @@
-extends Node2D
+class_name Slots extends Node2D
 
 @onready var cursor_sprite: Sprite2D = $Cursor
 @onready var cursor_sprite_2: Sprite2D = $Cursor2
+@onready var fight: Fight = get_parent()
 
 var rune = preload("res://scenes/fight/rune.tscn")
 
@@ -50,7 +51,7 @@ func _process(_delta):
 	if Input.is_action_just_pressed("a"):
 		match state:
 			State.RuneSelect:
-				if selected_rune().locked:
+				if selected_rune().locked or selected_rune().empty:
 					pass
 				else:
 					state = State.RuneSwitch
@@ -106,6 +107,11 @@ func update_cursor():
 	cursor_sprite.position = pos + Vector2(0, 16)
 	cursor_sprite_2.visible = state == State.RuneSwitch
 	cursor_sprite_2.position = rune_pos(cursor_s[0], cursor_s[1]) + Vector2(0, 16)
+	match state:
+		State.RuneSelect:
+			fight.set_status(selected_rune().description())
+		State.RuneSwitch:
+			fight.set_status("Move to?")
 
 
 func rune_pos(row, i) -> Vector2:

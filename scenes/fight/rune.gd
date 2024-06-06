@@ -1,6 +1,6 @@
 class_name Rune extends Node2D
 
-enum Type { Blank, Flex, Poison, Thunder, Demon, Angel, Skull, Loop }
+enum Type { Blank, Flex, Poison, Thunder, Demon, Angel, Curse, Loop }
 
 @export var empty = false
 @export var type: Type = Type.Blank
@@ -28,7 +28,7 @@ func update_sprite():
 			texture.region.position.x = 16 * 3
 		Type.Thunder:
 			texture.region.position.x = 16 * 4
-		Type.Skull:
+		Type.Curse:
 			texture.region.position.x = 16 * 5
 		Type.Demon:
 			texture.region.position.x = 16 * 6
@@ -36,3 +36,27 @@ func update_sprite():
 			texture.region.position.x = 16 * 7
 		Type.Loop:
 			texture.region.position.x = 16 * 8
+
+
+func description() -> String:
+	if empty:
+		return "Empty slot"
+	match type:
+		Type.Blank:
+			return "[Blank] No effect"
+		Type.Flex:
+			return "[Flex] Action power +%s%%" % Values.FLEX
+		Type.Poison:
+			return "[Poison]"
+		Type.Thunder:
+			return "[Thunder]"
+		Type.Curse:
+			return "[Curse]"
+		Type.Demon:
+			return "[Demon]"
+		Type.Angel:
+			return "[Angel]"
+		Type.Loop:
+			return "[Loop]"
+	printerr("No description for the type")
+	return ""
