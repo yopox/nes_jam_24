@@ -15,6 +15,11 @@ run/main_scene="res://scenes/fight/fight.tscn"
 config/features=PackedStringArray("4.2", "Mobile")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Util="*res://autoload/util.gd"
+Team="*res://autoload/team.gd"
+
 [display]
 
 window/size/viewport_width=1280
