@@ -1,0 +1,32 @@
+[gd_scene load_steps=3 format=3 uid="uid://cgu36n34ubhnu"]
+
+[ext_resource type="Script" path="res://scenes/fight/stats.gd" id="1_0s3rg"]
+[ext_resource type="Theme" uid="uid://d3g8e6rb5kn77" path="res://assets/theme.tres" id="2_ppqn2"]
+
+[node name="Stats" type="Node2D"]
+script = ExtResource("1_0s3rg")
+
+[node name="Name" type="Label" parent="."]
+offset_right = 105.0
+offset_bottom = 10.0
+theme = ExtResource("2_ppqn2")
+text = "Character"
+
+[node name="BarOutline" type="ColorRect" parent="."]
+offset_top = 11.0
+offset_right = 64.0
+offset_bottom = 17.0
+
+[node name="HPMissing" type="ColorRect" parent="."]
+offset_left = 1.0
+offset_top = 12.0
+offset_right = 63.0
+offset_bottom = 16.0
+color = Color(0.0941176, 0.0862745, 0.109804, 1)
+
+[node name="HP" type="ColorRect" parent="."]
+offset_left = 1.0
+offset_top = 12.0
+offset_right = 63.0
+offset_bottom = 16.0
+color = Color(0.152941, 0.482353, 0.188235, 1)

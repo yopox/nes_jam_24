@@ -1,0 +1,6 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://bi6jtu1txykgc"]
+
+[ext_resource type="FontFile" uid="uid://buyraywqjk0nh" path="res://assets/virtue_small_bold.ttf" id="1_ijyqv"]
+
+[resource]
+default_font = ExtResource("1_ijyqv")

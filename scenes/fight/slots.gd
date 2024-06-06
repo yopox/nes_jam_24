@@ -7,15 +7,15 @@ class_name Slots extends Node2D
 var rune = preload("res://scenes/fight/rune.tscn")
 
 var runes = {
-	"hand": [],
+	"enemies": [],
 	"p1": [],
 	"p2": [],
-	"enemies": [],
+	"hand": [],
 }
 var cursor_p = ["hand", 0]
 var cursor_s = ["hand", 0]
 
-enum State { RuneSelect, RuneSwitch }
+enum State { RuneSelect, RuneSwitch, P1Action, P1Target, P2Action, P2Target }
 var state = State.RuneSelect
 
 func _init():
@@ -71,58 +71,130 @@ func _process(_delta):
 					runes[cursor_s[0]][cursor_s[1]] = new
 					runes[cursor_p[0]][cursor_p[1]] = old
 					update_cursor()
-	
 	if Input.is_action_just_pressed("up"):
-		match cursor_p[0]:
-			"hand":
-				cursor_p[0] = "p2"
-				cursor_p[1] = 0
-			"p1":
-				cursor_p[0] = "hand"
-				cursor_p[1] = 0
-			"p2":
-				cursor_p[0] = "p1"
-		update_cursor()
+		up()
 	elif Input.is_action_just_pressed("down"):
-		match cursor_p[0]:
-			"hand":
-				cursor_p[0] = "p1"
-				cursor_p[1] = 0
-			"p1":
-				cursor_p[0] = "p2"
-			"p2":
-				cursor_p[0] = "hand"
-				cursor_p[1] = 0
-		update_cursor()
+		down()
 	elif Input.is_action_just_pressed("right"):
-		cursor_p[1] = posmod(cursor_p[1] + 1, len(runes[cursor_p[0]]))
-		update_cursor()
+		right()
 	elif Input.is_action_just_pressed("left"):
-		cursor_p[1] = posmod(cursor_p[1] - 1, len(runes[cursor_p[0]]))
-		update_cursor()
+		left()
+
+
+func up():
+	match state:
+		State.P1Action:
+			state = State.RuneSelect
+			cursor_p[0] = "hand"
+			cursor_p[1] = 0
+		State.P1Target:
+			state = State.P1Action
+		State.P2Action:
+			state = State.P1Target
+		State.P2Target:
+			state = State.P2Action
+		State.RuneSelect, State.RuneSwitch:
+			match cursor_p[0]:
+				"p1":
+					cursor_p[0] = "hand"
+					cursor_p[1] = 0
+				"p2":
+					cursor_p[0] = "p1"
+				"hand":
+					cursor_p[0] = "p2"
+					cursor_p[1] = 0
+	update_cursor()
+
+
+func down():
+	match state:
+		State.P1Action:
+			state = State.P1Target
+		State.P1Target:
+			state = State.P2Action
+		State.P2Action:
+			state = State.P2Target
+		State.P2Target:
+			state = State.RuneSelect
+			cursor_p[0] = "hand"
+			cursor_p[1] = 0
+		State.RuneSelect, State.RuneSwitch:
+			match cursor_p[0]:
+				"p1":
+					cursor_p[0] = "p2"
+				"p2":
+					cursor_p[0] = "hand"
+					cursor_p[1] = 0
+				"hand":
+					cursor_p[0] = "p1"
+					cursor_p[1] = 0
+	update_cursor()
+
+
+func right():
+	if cursor_p[0] == "p1" and cursor_p[1] == len(runes["p1"]) - 1 and state == State.RuneSelect:
+		state = State.P1Action
+	elif cursor_p[0] == "p2" and cursor_p[1] == len(runes["p2"]) - 1 and state == State.RuneSelect:
+		state = State.P2Action
+	else:
+		if state in [State.P1Action, State.P1Target]:
+			state = State.RuneSelect
+			cursor_p = ["p1", 0]
+		elif state in [State.P2Action, State.P2Target]:
+			state = State.RuneSelect
+			cursor_p = ["p2", 0]			
+		else:
+			cursor_p[1] = posmod(cursor_p[1] + 1, len(runes[cursor_p[0]]))
+	update_cursor()
+
+
+func left():
+	if cursor_p[0] == "p1" and cursor_p[1] == 0 and state == State.RuneSelect:
+		state = State.P1Action
+	elif cursor_p[0] == "p2" and cursor_p[1] == 0 and state == State.RuneSelect:
+		state = State.P2Action
+	else:
+		if state in [State.P1Action, State.P1Target]:
+			state = State.RuneSelect
+			cursor_p = ["p1", len(runes["p1"]) - 1]
+		elif state in [State.P2Action, State.P2Target]:
+			state = State.RuneSelect
+			cursor_p = ["p2", len(runes["p2"]) - 1]	
+		else:
+			cursor_p[1] = posmod(cursor_p[1] - 1, len(runes[cursor_p[0]]))
+	update_cursor()
 
 
 func update_cursor():
-	var pos = rune_pos(cursor_p[0], cursor_p[1])
-	cursor_sprite.position = pos + Vector2(0, 16)
-	cursor_sprite_2.visible = state == State.RuneSwitch
-	cursor_sprite_2.position = rune_pos(cursor_s[0], cursor_s[1]) + Vector2(0, 16)
+	match state:
+		State.P1Action, State.P1Target:
+			cursor_sprite.position = Vector2(10, 21)
+		State.P2Action, State.P2Target:
+			cursor_sprite.position = Vector2(10, 53)
+		State.RuneSelect, State.RuneSwitch:
+			var pos = rune_pos(cursor_p[0], cursor_p[1])
+			cursor_sprite.position = pos + Vector2(0, 16)
+			cursor_sprite_2.visible = state == State.RuneSwitch
+			cursor_sprite_2.position = rune_pos(cursor_s[0], cursor_s[1]) + Vector2(0, 16)
+	
 	match state:
 		State.RuneSelect:
 			fight.set_status(selected_rune().description())
 		State.RuneSwitch:
 			fight.set_status("Move to?")
+	
+	fight.update_state(state)
 
 
 func rune_pos(row, i) -> Vector2:
 	match row:
-		"hand":
-			return Vector2(-96 + 24 * i, 80)
 		"p1":
 			return Vector2(48 + 24 * i, 4)
 		"p2":
 			return Vector2(48 + 24 * i, 36)
-			
+		"hand":
+			return Vector2(-96 + 24 * i, 80)
+	
 	printerr("Unknown rune pos: [" + row + ", " + str(i) + "]")
 	return Vector2(-16, -16)
 

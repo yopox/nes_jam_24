@@ -9,7 +9,7 @@ func _init():
 
 func reset_runes():
 	runes.clear()
-	for i in range(7):
+	for i in range(8):
 		runes.append(Rune.Type.Blank)
 	for i in range(2):
 		runes.append(Rune.Type.Flex)
