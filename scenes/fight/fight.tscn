@@ -36,7 +36,6 @@ texture = SubResource("AtlasTexture_j80kk")
 texture = SubResource("AtlasTexture_jedro")
 
 [node name="Status" type="Label" parent="."]
-modulate = Color(1, 0.952941, 0.858824, 1)
 offset_left = -110.0
 offset_top = 102.0
 offset_right = -5.0

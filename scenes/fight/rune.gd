@@ -45,18 +45,18 @@ func description() -> String:
 		Type.Blank:
 			return "[Blank] No effect"
 		Type.Flex:
-			return "[Flex] Action power +%s%%" % Values.FLEX
+			return "[Flex] POW +%s%%" % Values.FLEX_BOOST
 		Type.Poison:
-			return "[Poison]"
+			return "[Poison] Applies %s poison" % Values.POISON
 		Type.Thunder:
-			return "[Thunder]"
+			return "[Thunder] Action power -%s%%, targets the team" % Values.THUNDER_NERF
 		Type.Curse:
-			return "[Curse]"
+			return "[Curse] POW -%s%%" % Values.CURSE_NERF
 		Type.Demon:
-			return "[Demon]"
+			return "[Demon] ATK: +%s%% / mark DEF: -%s%%, +1 mark" % [Values.DEMON_BOOST, Values.DEMON_NERF]
 		Type.Angel:
-			return "[Angel]"
+			return "[Angel] ATK: +%s%%, +1 mark DEF: heal %s%% / mark" % [Values.ANGEL_BOOST, Values.ANGEL_HEAL]
 		Type.Loop:
-			return "[Loop]"
-	printerr("No description for the type")
+			return "[Loop] POW -%s%%, repeats the action" % Values.LOOP_NERF
+	printerr("No description for the rune type")
 	return ""
