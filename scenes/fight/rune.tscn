@@ -1,14 +1,16 @@
 [gd_scene load_steps=4 format=3 uid="uid://8l2sc4pwov8e"]
 
-[ext_resource type="Texture2D" uid="uid://cpbrk2on5k5yf" path="res://assets/runes.png" id="1_b1pgx"]
 [ext_resource type="Script" path="res://scenes/fight/rune.gd" id="1_c2u5k"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_hp2oe"]
-atlas = ExtResource("1_b1pgx")
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_u1itb"]
+load_path = "res://.godot/imported/runes.png-1df8200768cecd770dcee430856827c6.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xnpcg"]
+atlas = SubResource("CompressedTexture2D_u1itb")
 region = Rect2(2.08165e-12, 2.08165e-12, 16, 16)
 
 [node name="Rune" type="Node2D"]
 script = ExtResource("1_c2u5k")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = SubResource("AtlasTexture_hp2oe")
+texture = SubResource("AtlasTexture_xnpcg")

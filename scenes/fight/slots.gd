@@ -1,7 +1,7 @@
 extends Node2D
 
-@onready
-var cursor_sprite: Sprite2D = $Cursor
+@onready var cursor_sprite: Sprite2D = $Cursor
+@onready var cursor_sprite_2: Sprite2D = $Cursor2
 
 var rune = preload("res://scenes/fight/rune.tscn")
 
@@ -11,13 +11,17 @@ var runes = {
 	"p2": [],
 	"enemies": [],
 }
-var cursor = ["hand", 0]
+var cursor_p = ["hand", 0]
+var cursor_s = ["hand", 0]
 
+enum State { RuneSelect, RuneSwitch }
+var state = State.RuneSelect
 
 func _init():
+	var hand = Team.draft_runes()
 	for i in range(6):
 		var pos = rune_pos("hand", i)
-		var r = instantiate_rune(pos.x, pos.y, true)
+		var r := instantiate_rune(pos.x, pos.y, false, hand[i])
 		add_child(r)
 		runes["hand"].append(r)
 	
@@ -38,40 +42,70 @@ func _ready():
 	update_cursor()
 
 
-func _process(delta):
+func selected_rune() -> Rune:
+	return runes[cursor_p[0]][cursor_p[1]]
+
+
+func _process(_delta):
+	if Input.is_action_just_pressed("a"):
+		match state:
+			State.RuneSelect:
+				if selected_rune().locked:
+					pass
+				else:
+					state = State.RuneSwitch
+					cursor_s[0] = cursor_p[0]
+					cursor_s[1] = cursor_p[1]
+					update_cursor()
+			State.RuneSwitch:
+				var new = selected_rune()
+				if new.locked:
+					pass
+				else:
+					state = State.RuneSelect
+					var old: Rune = runes[cursor_s[0]][cursor_s[1]]
+					var old_pos = old.position
+					old.position = new.position
+					new.position = old_pos
+					runes[cursor_s[0]][cursor_s[1]] = new
+					runes[cursor_p[0]][cursor_p[1]] = old
+					update_cursor()
+	
 	if Input.is_action_just_pressed("up"):
-		match cursor[0]:
+		match cursor_p[0]:
 			"hand":
-				cursor[0] = "p2"
-				cursor[1] = 0
+				cursor_p[0] = "p2"
+				cursor_p[1] = 0
 			"p1":
-				cursor[0] = "hand"
-				cursor[1] = 0
+				cursor_p[0] = "hand"
+				cursor_p[1] = 0
 			"p2":
-				cursor[0] = "p1"
+				cursor_p[0] = "p1"
 		update_cursor()
 	elif Input.is_action_just_pressed("down"):
-		match cursor[0]:
+		match cursor_p[0]:
 			"hand":
-				cursor[0] = "p1"
-				cursor[1] = 0
+				cursor_p[0] = "p1"
+				cursor_p[1] = 0
 			"p1":
-				cursor[0] = "p2"
+				cursor_p[0] = "p2"
 			"p2":
-				cursor[0] = "hand"
-				cursor[1] = 0
+				cursor_p[0] = "hand"
+				cursor_p[1] = 0
 		update_cursor()
 	elif Input.is_action_just_pressed("right"):
-		cursor[1] = posmod(cursor[1] + 1, len(runes[cursor[0]]))
+		cursor_p[1] = posmod(cursor_p[1] + 1, len(runes[cursor_p[0]]))
 		update_cursor()
 	elif Input.is_action_just_pressed("left"):
-		cursor[1] = posmod(cursor[1] - 1, len(runes[cursor[0]]))
+		cursor_p[1] = posmod(cursor_p[1] - 1, len(runes[cursor_p[0]]))
 		update_cursor()
 
 
 func update_cursor():
-	var pos = rune_pos(cursor[0], cursor[1])
+	var pos = rune_pos(cursor_p[0], cursor_p[1])
 	cursor_sprite.position = pos + Vector2(0, 16)
+	cursor_sprite_2.visible = state == State.RuneSwitch
+	cursor_sprite_2.position = rune_pos(cursor_s[0], cursor_s[1]) + Vector2(0, 16)
 
 
 func rune_pos(row, i) -> Vector2:
@@ -92,4 +126,5 @@ func instantiate_rune(x, y, empty, type = Rune.Type.Blank) -> Rune:
 	r.empty = empty
 	r.position.x = x
 	r.position.y = y
+	r.type = type
 	return r

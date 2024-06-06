@@ -1,8 +1,19 @@
-[gd_scene load_steps=4 format=3 uid="uid://bvog7xiljehg2"]
+[gd_scene load_steps=7 format=3 uid="uid://bvog7xiljehg2"]
 
 [ext_resource type="Texture2D" uid="uid://fusrhti4l6xj" path="res://assets/fight_bg.png" id="1_q3qwi"]
 [ext_resource type="Script" path="res://scenes/fight/slots.gd" id="2_5g0xm"]
 [ext_resource type="Texture2D" uid="uid://c70wd3t1n5nac" path="res://assets/cursor.png" id="3_hlny7"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_2w2rk"]
+load_path = "res://.godot/imported/cursor.png-224f93d013e0812359a323dac1948615.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j80kk"]
+atlas = SubResource("CompressedTexture2D_2w2rk")
+region = Rect2(16, 2.08165e-12, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jedro"]
+atlas = ExtResource("3_hlny7")
+region = Rect2(2.08165e-12, 2.08165e-12, 16, 16)
 
 [node name="Node2D" type="Node2D"]
 
@@ -14,5 +25,9 @@ texture = ExtResource("1_q3qwi")
 [node name="slots" type="Node2D" parent="."]
 script = ExtResource("2_5g0xm")
 
+[node name="Cursor2" type="Sprite2D" parent="slots"]
+visible = false
+texture = SubResource("AtlasTexture_j80kk")
+
 [node name="Cursor" type="Sprite2D" parent="slots"]
-texture = ExtResource("3_hlny7")
+texture = SubResource("AtlasTexture_jedro")
