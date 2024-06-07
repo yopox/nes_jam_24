@@ -1,6 +1,14 @@
 extends Node
 
 
+var unique_id = 0
+
+
+func get_unique_id():
+	unique_id += 1
+	return unique_id
+
+
 func distinct(n: int, from: int, to: int) -> Array:
 	var drafted = []
 	

@@ -20,8 +20,9 @@ region = Rect2(16, 2.08165e-12, 16, 16)
 atlas = ExtResource("3_hlny7")
 region = Rect2(2.08165e-12, 2.08165e-12, 16, 16)
 
-[node name="Node2D" type="Node2D"]
+[node name="Fight" type="Node2D" node_paths=PackedStringArray("heroes")]
 script = ExtResource("1_cegb8")
+heroes = [NodePath("Heroes/Hero"), NodePath("Heroes/Hero2")]
 
 [node name="Background" type="Sprite2D" parent="."]
 texture = ExtResource("1_q3qwi")
@@ -47,11 +48,13 @@ position = Vector2(-108, -8)
 [node name="Hero2" parent="Heroes" instance=ExtResource("6_ei2fy")]
 position = Vector2(-108, 24)
 
-[node name="Action" parent="Heroes" instance=ExtResource("7_wfhrf")]
+[node name="Action" parent="Heroes" node_paths=PackedStringArray("fight") instance=ExtResource("7_wfhrf")]
 position = Vector2(-1, 0)
+fight = NodePath("../..")
 
-[node name="Action2" parent="Heroes" instance=ExtResource("7_wfhrf")]
+[node name="Action2" parent="Heroes" node_paths=PackedStringArray("fight") instance=ExtResource("7_wfhrf")]
 position = Vector2(-1, 32)
+fight = NodePath("../..")
 p1 = false
 
 [node name="ActionBox" type="Node" parent="."]
@@ -86,3 +89,6 @@ offset_right = -5.0
 offset_bottom = 112.0
 theme = ExtResource("4_10dxc")
 text = "[Rune] rune description"
+
+[connection signal="action_changed" from="Heroes/Hero" to="Heroes/Action" method="_on_hero_action_changed"]
+[connection signal="action_changed" from="Heroes/Hero2" to="Heroes/Action2" method="_on_hero_action_changed"]

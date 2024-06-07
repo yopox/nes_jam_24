@@ -1,7 +1,7 @@
 extends Node
 
 var runes = []
-
+var fight: Fight
 
 func _init():
 	reset_runes()

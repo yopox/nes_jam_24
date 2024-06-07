@@ -49,6 +49,7 @@ func selected_rune() -> Rune:
 
 func _process(_delta):
 	if Input.is_action_just_pressed("a"):
+		fight.a(state)
 		match state:
 			State.RuneSelect:
 				if selected_rune().locked or selected_rune().empty:

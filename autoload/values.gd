@@ -1,7 +1,7 @@
 extends Node
 
 # CONSTANTS
-const FLEX_BOOST: int = 25
+const FLEX_BOOST: int = 50
 const THUNDER_NERF: int = 50
 const CURSE_NERF: int = 35
 const DEMON_BOOST: int = 50
