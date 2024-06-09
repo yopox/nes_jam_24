@@ -58,13 +58,19 @@ position = Vector2(-1, 32)
 fight = NodePath("../..")
 p1 = false
 
-[node name="Enemies" type="Node" parent="."]
+[node name="Enemies" type="HBoxContainer" parent="."]
+offset_left = -112.0
+offset_top = -108.0
+offset_right = 112.0
+offset_bottom = -28.0
+size_flags_horizontal = 4
+alignment = 1
 
 [node name="Bubulle" parent="Enemies" instance=ExtResource("7_md4dp")]
-position = Vector2(-40, -70)
+layout_mode = 2
 
 [node name="Bubulle2" parent="Enemies" instance=ExtResource("7_md4dp")]
-position = Vector2(40, -70)
+layout_mode = 2
 
 [node name="ActionBox" type="Node" parent="."]
 

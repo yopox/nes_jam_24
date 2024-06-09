@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://d1eb0i0rd03cu"]
+[gd_scene load_steps=7 format=3 uid="uid://d1eb0i0rd03cu"]
 
 [ext_resource type="Script" path="res://scripts/fighter.gd" id="1_1kjit"]
 [ext_resource type="Texture2D" uid="uid://cbb3xd13wvhbq" path="res://assets/ememies.png" id="2_t4wxr"]
@@ -9,20 +9,45 @@
 atlas = ExtResource("2_t4wxr")
 region = Rect2(2.08165e-12, 2.08165e-12, 32, 32)
 
-[node name="Bubulle" type="Node2D"]
+[sub_resource type="GDScript" id="GDScript_elqn7"]
+script/source = "extends Node2D
+
+@export var runes: Array[Rune] = []
+"
+
+[node name="Bubulle" type="Control" node_paths=PackedStringArray("enemy_rune_nodes")]
+custom_minimum_size = Vector2(56, 76)
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -640.0
+offset_top = -600.0
+offset_right = -584.0
+offset_bottom = -524.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_1kjit")
 MAX_HP = 50
 ATK = 5
 DEF = 2
+runes = Array[int]([0, 0, 0, 0, 1])
+enemy_rune_nodes = [NodePath("Runes/Rune"), NodePath("Runes/Rune2")]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(28, 36)
 texture = SubResource("AtlasTexture_kii34")
 
 [node name="Stats" parent="." instance=ExtResource("4_n06jf")]
-position = Vector2(-24, -24)
+position = Vector2(4, 12)
 character_name = "Bubulle"
 
-[node name="Runes" type="Node2D" parent="."]
+[node name="Runes" type="Node2D" parent="." node_paths=PackedStringArray("runes")]
+position = Vector2(28, 36)
+script = SubResource("GDScript_elqn7")
+runes = [NodePath("Rune"), NodePath("Rune2")]
 
 [node name="Rune" parent="Runes" instance=ExtResource("3_tdnp6")]
 position = Vector2(-12, 28)

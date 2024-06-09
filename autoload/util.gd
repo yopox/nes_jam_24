@@ -1,5 +1,6 @@
 extends Node
 
+const BLUE = Color("#56cfde")
 
 var unique_id = 0
 

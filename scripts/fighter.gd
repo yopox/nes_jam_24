@@ -13,6 +13,9 @@ var HP: int = MAX_HP
 @export var ATK: int = 10
 @export var DEF: int = 5
 
+@export var runes: Array[Rune.Type] = []
+@export var enemy_rune_nodes: Array[Rune] = []
+
 @onready var stats_node: Stats = $Stats
 
 var id = -1
@@ -24,6 +27,7 @@ var target = -1
 
 func _ready():
 	stats_node.character_name = name
+	draft_enemy_runes()
 
 
 func is_alive():
@@ -51,3 +55,12 @@ func cycle_action():
 func cycle_target():
 	target = Team.fight.get_next_target(target)
 	update_gui()
+
+
+func draft_enemy_runes():
+	var draft = Util.distinct(len(enemy_rune_nodes), 0, len(runes) - 1)
+	draft.sort()
+	draft.reverse()
+	for i in range(len(enemy_rune_nodes)):
+		enemy_rune_nodes[i].type = runes[draft[i]]
+		enemy_rune_nodes[i].update_sprite()

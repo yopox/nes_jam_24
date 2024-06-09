@@ -17,6 +17,8 @@ func reset_runes():
 
 func draft_runes() -> Array[Rune.Type]:
 	var drafted_i = Util.distinct(6, 0, len(runes) - 1)
+	drafted_i.sort()
+	drafted_i.reverse()
 	var drafted: Array[Rune.Type] = []
 	for i in drafted_i:
 		drafted.append(runes[i])

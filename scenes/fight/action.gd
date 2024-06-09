@@ -12,13 +12,13 @@ func set_state(state: Slots.State) -> void:
 	label2.modulate = Color.WHITE
 	
 	if state == Slots.State.P1Action and p1:
-		label.modulate = Color("#56cfde")
+		label.modulate = Util.BLUE
 	elif state == Slots.State.P2Action and not p1:
-		label.modulate = Color("#56cfde")
+		label.modulate = Util.BLUE
 	elif state == Slots.State.P1Target and p1:
-		label2.modulate = Color("#56cfde")
+		label2.modulate = Util.BLUE
 	elif state == Slots.State.P2Target and not p1:
-		label2.modulate = Color("#56cfde")
+		label2.modulate = Util.BLUE
 
 
 func _on_hero_action_changed(fighter: int, action: Fighter.Actions, target: int):
