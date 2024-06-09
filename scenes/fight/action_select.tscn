@@ -1,10 +1,10 @@
 [gd_scene load_steps=4 format=3 uid="uid://dk62tipiy4qph"]
 
-[ext_resource type="Script" path="res://scenes/fight/action.gd" id="1_ahijh"]
+[ext_resource type="Script" path="res://scenes/fight/action_select.gd" id="1_ahijh"]
 [ext_resource type="Theme" uid="uid://bi6jtu1txykgc" path="res://assets/theme_bold.tres" id="1_qaaa4"]
 [ext_resource type="Theme" uid="uid://d3g8e6rb5kn77" path="res://assets/theme.tres" id="2_l7k1q"]
 
-[node name="Action" type="Node2D"]
+[node name="ActionSelect" type="Node2D"]
 script = ExtResource("1_ahijh")
 
 [node name="Label" type="Label" parent="."]

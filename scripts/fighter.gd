@@ -3,7 +3,6 @@ class_name Fighter extends Node
 enum Type { Fighter, Knight }
 
 enum Stat { HP, ATK, DEF }
-enum Actions { Atk, Spl, Def }
 
 var weapon = null
 var spell = null
@@ -20,14 +19,15 @@ var HP: int = MAX_HP
 
 var id = -1
 
-signal action_changed(fighter: int, action: Fighter.Actions, target: int)
-var intent = Actions.Atk
+signal action_changed(fighter: int, action: Actions.Type, target: int)
+var intent = Actions.Type.Atk
 var target = -1
 
 
 func _ready():
 	stats_node.character_name = name
-	draft_enemy_runes()
+	if len(runes) > 0:
+		draft_enemy_runes()
 
 
 func is_alive():
@@ -40,15 +40,18 @@ func update_gui():
 
 func cycle_action():
 	match intent:
-		Actions.Atk:
+		Actions.Type.Atk:
 			if spell != null:
-				intent = Actions.Spl
+				intent = Actions.Type.Spl
 			else:
-				intent = Actions.Def
-		Actions.Spl:
-			intent = Actions.Def
-		Actions.Def:
-			intent = Actions.Atk
+				intent = Actions.Type.Def
+				target = id
+		Actions.Type.Spl:
+			intent = Actions.Type.Def
+			target = id
+		Actions.Type.Def:
+			intent = Actions.Type.Atk
+			target = Team.fight.get_first_alive_enemy()
 	update_gui()
 
 

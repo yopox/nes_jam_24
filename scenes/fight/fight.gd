@@ -9,7 +9,7 @@ class_name Fight extends Node2D
 @onready var arrow: Sprite2D = $ActionBox/Arrow
 
 @export var heroes: Array[Fighter] = []
-var enemies: Array[Fighter] = []
+@onready var enemies: Container = $Enemies
 
 
 var reset := false
@@ -21,9 +21,11 @@ func _enter_tree():
 
 func _ready():
 	set_status(slots.selected_rune().description())
+	for e in enemies.get_children():
+		e.id = Util.get_unique_id()
 	for h in heroes:
 		h.id = Util.get_unique_id()
-		h.intent = Fighter.Actions.Atk
+		h.intent = Actions.Type.Atk
 		h.target = get_first_alive_enemy()
 		h.update_gui()
 
@@ -59,7 +61,7 @@ func get_fighter_by_id(id: int) -> Fighter:
 	for f in heroes:
 		if f.id == id:
 			return f
-	for e in enemies:
+	for e in enemies.get_children():
 		if e.id == id:
 			return e
 	printerr("Can't find fighter!")
@@ -72,7 +74,7 @@ func get_next_target(target: int) -> int:
 		if last != null and last.id == target:
 			return f.id
 		last = f
-	for e in enemies:
+	for e in enemies.get_children():
 		if last.id == target:
 			return e.id
 		last = e
@@ -80,7 +82,7 @@ func get_next_target(target: int) -> int:
 
 
 func get_first_alive_enemy() -> int:
-	for e in enemies:
+	for e in enemies.get_children():
 		if e.is_alive():
 			return e.id
 	return -1

@@ -1,6 +1,5 @@
 class_name Action extends Node2D
 
-@export var fight: Fight
 @export var p1 := true
 
 @onready var label: Label = $Label
@@ -21,16 +20,16 @@ func set_state(state: Slots.State) -> void:
 		label2.modulate = Util.BLUE
 
 
-func _on_hero_action_changed(fighter: int, action: Fighter.Actions, target: int):
+func _on_hero_action_changed(fighter: int, action: Actions.Type, target: int):
 	match action:
-		Fighter.Actions.Atk:
+		Actions.Type.Atk:
 			label.text = "ATK"
-		Fighter.Actions.Spl:
+		Actions.Type.Spl:
 			label.text = "SPL"
-		Fighter.Actions.Def:
+		Actions.Type.Def:
 			label.text = "DEF"
 	
 	if target == fighter or target == -1:
 		label2.text = "Self"
 	else:
-		label2.text = fight.get_fighter_by_id(target).name
+		label2.text = Team.fight.get_fighter_by_id(target).name

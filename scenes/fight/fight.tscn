@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://d2gth7da186vm" path="res://scenes/fight/hero.tscn" id="6_ei2fy"]
 [ext_resource type="Theme" uid="uid://bi6jtu1txykgc" path="res://assets/theme_bold.tres" id="7_gr22p"]
 [ext_resource type="PackedScene" uid="uid://d1eb0i0rd03cu" path="res://scenes/enemies/Bubulle.tscn" id="7_md4dp"]
-[ext_resource type="PackedScene" uid="uid://dk62tipiy4qph" path="res://scenes/fight/action.tscn" id="7_wfhrf"]
+[ext_resource type="PackedScene" uid="uid://dk62tipiy4qph" path="res://scenes/fight/action_select.tscn" id="7_wfhrf"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_2w2rk"]
 load_path = "res://.godot/imported/cursor.png-224f93d013e0812359a323dac1948615.ctex"
@@ -45,17 +45,23 @@ texture = SubResource("AtlasTexture_jedro")
 
 [node name="Hero" parent="Heroes" instance=ExtResource("6_ei2fy")]
 position = Vector2(-108, -8)
+MAX_HP = 100
+ATK = 10
+DEF = 5
+runes = Array[int]([])
 
 [node name="Hero2" parent="Heroes" instance=ExtResource("6_ei2fy")]
 position = Vector2(-108, 24)
+MAX_HP = 100
+ATK = 10
+DEF = 5
+runes = Array[int]([])
 
-[node name="Action" parent="Heroes" node_paths=PackedStringArray("fight") instance=ExtResource("7_wfhrf")]
+[node name="Action" parent="Heroes" instance=ExtResource("7_wfhrf")]
 position = Vector2(-1, 0)
-fight = NodePath("../..")
 
-[node name="Action2" parent="Heroes" node_paths=PackedStringArray("fight") instance=ExtResource("7_wfhrf")]
+[node name="Action2" parent="Heroes" instance=ExtResource("7_wfhrf")]
 position = Vector2(-1, 32)
-fight = NodePath("../..")
 p1 = false
 
 [node name="Enemies" type="HBoxContainer" parent="."]
@@ -66,11 +72,13 @@ offset_bottom = -28.0
 size_flags_horizontal = 4
 alignment = 1
 
-[node name="Bubulle" parent="Enemies" instance=ExtResource("7_md4dp")]
+[node name="Bubulle" parent="Enemies" node_paths=PackedStringArray("enemy_rune_nodes") instance=ExtResource("7_md4dp")]
 layout_mode = 2
+enemy_rune_nodes = Array[int]([])
 
-[node name="Bubulle2" parent="Enemies" instance=ExtResource("7_md4dp")]
+[node name="Bubulle2" parent="Enemies" node_paths=PackedStringArray("enemy_rune_nodes") instance=ExtResource("7_md4dp")]
 layout_mode = 2
+enemy_rune_nodes = Array[int]([])
 
 [node name="ActionBox" type="Node" parent="."]
 
