@@ -1,47 +1,50 @@
-[gd_scene load_steps=4 format=3 uid="uid://cgu36n34ubhnu"]
+[gd_scene load_steps=4 format=3 uid="uid://dgfepanw2h6us"]
 
-[ext_resource type="Script" path="res://scenes/fight/stats.gd" id="1_0s3rg"]
-[ext_resource type="Theme" uid="uid://d3g8e6rb5kn77" path="res://assets/theme.tres" id="2_ppqn2"]
-[ext_resource type="Script" path="res://scenes/fight/HPBar.gd" id="3_v8wn2"]
+[ext_resource type="Script" path="res://scenes/fight/stats.gd" id="1_mu5om"]
+[ext_resource type="Theme" uid="uid://d3g8e6rb5kn77" path="res://assets/theme.tres" id="2_ipvrs"]
+[ext_resource type="Script" path="res://scenes/fight/HPBar.gd" id="3_7wem8"]
 
 [node name="Stats" type="Node2D"]
-script = ExtResource("1_0s3rg")
+script = ExtResource("1_mu5om")
 
 [node name="Name" type="Label" parent="."]
-offset_right = 105.0
+offset_left = -24.0
+offset_right = 72.0
 offset_bottom = 10.0
-theme = ExtResource("2_ppqn2")
+theme = ExtResource("2_ipvrs")
 text = "Character"
+horizontal_alignment = 1
 
 [node name="HPBar" type="Node2D" parent="."]
 position = Vector2(0, 11)
-script = ExtResource("3_v8wn2")
+script = ExtResource("3_7wem8")
 
 [node name="BarOutline" type="ColorRect" parent="HPBar"]
-offset_right = 64.0
+offset_right = 48.0
 offset_bottom = 6.0
 
 [node name="HPMissing" type="ColorRect" parent="HPBar"]
 offset_left = 1.0
 offset_top = 1.0
-offset_right = 63.0
+offset_right = 47.0
 offset_bottom = 5.0
 color = Color(0.0941176, 0.0862745, 0.109804, 1)
 
 [node name="HP" type="ColorRect" parent="HPBar"]
 offset_left = 1.0
 offset_top = 1.0
-offset_right = 63.0
+offset_right = 47.0
 offset_bottom = 5.0
 color = Color(0.152941, 0.482353, 0.188235, 1)
 
 [node name="Status" type="Node2D" parent="HPBar"]
-visible = false
-position = Vector2(0, 9)
+position = Vector2(0, 8)
 
 [node name="Name2" type="Label" parent="HPBar/Status"]
-offset_top = -3.0
-offset_right = 105.0
-offset_bottom = 7.0
-theme = ExtResource("2_ppqn2")
+visible = false
+offset_left = 10.0
+offset_top = -29.0
+offset_right = 115.0
+offset_bottom = -19.0
+theme = ExtResource("2_ipvrs")
 text = "A1 P3"
