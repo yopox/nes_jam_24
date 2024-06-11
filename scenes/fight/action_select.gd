@@ -1,4 +1,4 @@
-class_name Action extends Node2D
+class_name ActionSelect extends Node2D
 
 @export var p1 := true
 

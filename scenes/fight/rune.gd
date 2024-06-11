@@ -14,6 +14,11 @@ func _ready():
 	update_sprite()
 
 
+func reset():
+	type = Type.Blank
+	empty = true
+
+
 func update_sprite():
 	var texture := sprite.texture as AtlasTexture
 	if empty:

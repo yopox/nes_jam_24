@@ -35,13 +35,7 @@ offset_right = 63.0
 offset_bottom = 5.0
 color = Color(0.152941, 0.482353, 0.188235, 1)
 
-[node name="Status" type="Node2D" parent="HPBar"]
-visible = false
-position = Vector2(0, 9)
-
-[node name="Name2" type="Label" parent="HPBar/Status"]
-offset_top = -3.0
-offset_right = 105.0
-offset_bottom = 7.0
-theme = ExtResource("2_ppqn2")
-text = "A1 P3"
+[node name="StatusList" type="HBoxContainer" parent="."]
+offset_top = 17.0
+offset_right = 64.0
+offset_bottom = 25.0

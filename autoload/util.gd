@@ -1,6 +1,14 @@
 extends Node
 
 const BLUE = Color("#56cfde")
+const ACID_GREEN = Color("#62b824")
+const GREEN = Color("#277b30")
+const ORANGE = Color("#faaa39")
+const RED = Color("#ee1841")
+const DARK_RED = Color("#a51140")
+const YELLOW = Color("#ffe86b")
+const WHITE = Color("#ffffff")
+const GRAY = Color("#aaa4a5")
 
 var unique_id = 0
 

@@ -15,7 +15,7 @@ script/source = "extends Node2D
 @export var runes: Array[Rune] = []
 "
 
-[node name="Bubulle" type="Control" node_paths=PackedStringArray("enemy_rune_nodes")]
+[node name="Bulix" type="Control" node_paths=PackedStringArray("enemy_rune_nodes")]
 custom_minimum_size = Vector2(56, 76)
 layout_mode = 3
 anchors_preset = 8
@@ -33,7 +33,7 @@ script = ExtResource("1_1kjit")
 MAX_HP = 50
 ATK = 5
 DEF = 2
-runes = Array[int]([0, 0, 0, 0, 1])
+runes = Array[int]([0, 0, 0, 0, 0, 1])
 enemy_rune_nodes = [NodePath("Runes/Rune"), NodePath("Runes/Rune2")]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -42,7 +42,7 @@ texture = SubResource("AtlasTexture_kii34")
 
 [node name="Stats" parent="." instance=ExtResource("4_n06jf")]
 position = Vector2(4, 12)
-character_name = "Bubulle"
+character_name = "Bulix"
 
 [node name="Runes" type="Node2D" parent="." node_paths=PackedStringArray("runes")]
 position = Vector2(28, 36)

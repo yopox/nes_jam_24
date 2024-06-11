@@ -37,13 +37,10 @@ offset_right = 47.0
 offset_bottom = 5.0
 color = Color(0.152941, 0.482353, 0.188235, 1)
 
-[node name="Status" type="Node2D" parent="HPBar"]
-position = Vector2(0, 8)
-
-[node name="Name2" type="Label" parent="HPBar/Status"]
-offset_left = 10.0
-offset_top = -29.0
-offset_right = 115.0
-offset_bottom = -19.0
-theme = ExtResource("2_ipvrs")
-text = "A1 P3"
+[node name="StatusList" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(128, 2.08165e-12)
+offset_left = -40.0
+offset_top = -10.0
+offset_right = 88.0
+offset_bottom = -2.0
+alignment = 1

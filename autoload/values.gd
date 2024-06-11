@@ -10,3 +10,6 @@ const ANGEL_BOOST: int = 25
 const ANGEL_HEAL: int = 5
 const LOOP_NERF: int = 20
 const POISON: int = 2
+
+const MAX_DEF: int = 99
+const MAX_MARKS: int = 9

@@ -23,11 +23,20 @@ signal action_changed(fighter: int, action: Actions.Type, target: int)
 var intent = Actions.Type.Atk
 var target = -1
 
+var status: Array[Status] = []
+
 
 func _ready():
 	stats_node.character_name = name
-	if len(runes) > 0:
-		draft_enemy_runes()
+	stats_node.update_status(self)
+
+
+func reset():
+	id = Util.get_unique_id()
+	HP = MAX_HP
+	status.clear()
+	stats_node.stats_changed(self)
+	stats_node.update_status(self)
 
 
 func is_alive():
@@ -60,6 +69,14 @@ func cycle_target():
 	update_gui()
 
 
+func action() -> Actions.Action:
+	var act = Actions.Action.new()
+	act.fighter = self
+	act.type = intent
+	act.target = target
+	return act
+
+
 func draft_enemy_runes():
 	var draft = Util.distinct(len(enemy_rune_nodes), 0, len(runes) - 1)
 	draft.sort()
@@ -67,3 +84,86 @@ func draft_enemy_runes():
 	for i in range(len(enemy_rune_nodes)):
 		enemy_rune_nodes[i].type = runes[draft[i]]
 		enemy_rune_nodes[i].update_sprite()
+
+
+func damage(amount: int) -> void:
+	var final_amount = amount
+	for s in status:
+		if s.type == Status.Type.Defense:
+			# total block
+			if s.value >= final_amount:
+				s.value -= final_amount
+				final_amount = 0
+			# partial block
+			if s.value < final_amount:
+				final_amount -= s.value
+				s.value = 0
+	HP -= final_amount
+	
+	if HP <= 0:
+		HP = 0
+		status.clear()
+		status.append(Actions.create_status(Status.Type.KO, 1))
+	
+	stats_node.stats_changed(self)
+	stats_node.update_status(self)
+
+
+func heal(percent: int) -> void:
+	HP += percent / 100.0 * MAX_HP
+	HP = min(HP, MAX_HP)
+	stats_node.stats_changed(self)
+
+
+func defend(amount: int) -> void:
+	for s in status:
+		if s.type == Status.Type.Defense:
+			s.value += amount
+			s.value = min(s.value, Values.MAX_DEF)
+			stats_node.update_status(self)
+			return
+	status.append(Actions.create_status(Status.Type.Defense, amount))
+	stats_node.update_status(self)
+
+
+func end_of_turn():
+	var expired = []
+	for i in range(len(status)):
+		var s = status[i]
+		if s.type == Status.Type.Defense:
+			s.value = 0
+		if s.is_expired():
+			expired.append(i)
+	expired.reverse()
+	for i in expired:
+		status.remove_at(i)
+	stats_node.update_status(self)
+
+
+func add_mark(type: Status.Type, amount: int) -> void:
+	for s in status:
+		if s.type == type:
+			s.value += amount
+			s.value = min(s.value, Values.MAX_MARKS)
+			stats_node.update_status(self)
+			return
+	status.append(Actions.create_status(type, amount))
+	stats_node.update_status(self)
+	
+
+func get_status_value(type: Status.Type) -> int:
+	for s in status:
+		if s.type == type:
+			return s.value
+	return 0
+
+
+func remove_status(type: Status.Type) -> void:
+	var to_remove = -1
+	for i in range(len(status)):
+		if status[i].type == type:
+			to_remove = i
+			break
+	if to_remove != -1:
+		status.remove_at(to_remove)
+	stats_node.update_status(self)

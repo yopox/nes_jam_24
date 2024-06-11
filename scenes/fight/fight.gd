@@ -3,8 +3,8 @@ class_name Fight extends Node2D
 @onready var status: Label = $Status
 @onready var slots: Slots = $slots
 
-@onready var action_p1: Action = $Heroes/Action
-@onready var action_p2: Action = $Heroes/Action2
+@onready var action_p1: ActionSelect = $Heroes/Action
+@onready var action_p2: ActionSelect = $Heroes/Action2
 
 @onready var arrow: Sprite2D = $ActionBox/Arrow
 
@@ -22,9 +22,10 @@ func _enter_tree():
 func _ready():
 	set_status(slots.selected_rune().description())
 	for e in enemies.get_children():
-		e.id = Util.get_unique_id()
+		e.reset()
+		e.draft_enemy_runes()
 	for h in heroes:
-		h.id = Util.get_unique_id()
+		h.reset()
 		h.intent = Actions.Type.Atk
 		h.target = get_first_alive_enemy()
 		h.update_gui()
@@ -39,9 +40,9 @@ func _process(_delta):
 			arrow.position.y = 85
 	if Input.is_action_just_pressed("start"):
 		if reset:
-			print("Reset")
+			reset_runes()
 		else:
-			print("Fight")
+			fight()
 
 
 func set_status(text: String) -> void:
@@ -98,3 +99,29 @@ func a(state: Slots.State) -> void:
 			heroes[1].cycle_action()
 		Slots.State.P2Target:
 			heroes[1].cycle_target()
+
+
+func reset_runes():
+	pass
+
+
+func fight():
+	var p1_action = heroes[0].action()
+	for rune in slots.runes["p1"]:
+		if not rune.empty:
+			Actions.apply_rune(p1_action, rune.type)
+	var p2_action = heroes[1].action()
+	for rune in slots.runes["p2"]:
+		if not rune.empty:
+			Actions.apply_rune(p2_action, rune.type)
+	
+	Actions.resolve_action(p1_action)
+	Actions.resolve_action(p2_action)
+	
+	for h in heroes:
+		h.end_of_turn()
+	for e in enemies.get_children():
+		e.end_of_turn()
+
+	reset_runes()
+	

@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://u4v1vrpx25r6"]
+
+[ext_resource type="Script" path="res://scenes/fight/status_node.gd" id="1_1hpq1"]
+[ext_resource type="Theme" uid="uid://bi6jtu1txykgc" path="res://assets/theme_bold.tres" id="2_5almu"]
+[ext_resource type="Texture2D" uid="uid://dyrdt875ym2gu" path="res://assets/status.png" id="2_wpgbf"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ase6e"]
+atlas = ExtResource("2_wpgbf")
+region = Rect2(2.08165e-12, 2.08165e-12, 8, 8)
+
+[node name="Status" type="HBoxContainer"]
+theme_override_constants/separation = 1
+script = ExtResource("1_1hpq1")
+
+[node name="Icon" type="TextureRect" parent="."]
+layout_mode = 2
+size_flags_vertical = 8
+texture = SubResource("AtlasTexture_ase6e")
+
+[node name="Letter" type="Label" parent="."]
+layout_mode = 2
+theme = ExtResource("2_5almu")
+text = "D"
+
+[node name="Value" type="Label" parent="."]
+layout_mode = 2
+theme = ExtResource("2_5almu")
+text = "2"
