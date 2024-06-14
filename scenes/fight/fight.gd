@@ -135,12 +135,12 @@ func fight():
 	
 	# Defense has priority
 	for action in actions:
-		if action.type == Actions.Type.Def:
+		if action.type == Actions.Type.Def and action.fighter.is_alive():
 			await Actions.resolve_action(action)
 	
 	# Resolve non defense actions
 	for action in actions:
-		if action.type != Actions.Type.Def:
+		if action.type != Actions.Type.Def and action.fighter.is_alive():
 			await Actions.resolve_action(action)
 	
 	for h in heroes:
