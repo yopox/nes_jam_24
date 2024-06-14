@@ -19,10 +19,9 @@ enum State { RuneSelect, RuneSwitch, P1Action, P1Target, P2Action, P2Target, Fig
 var state = State.RuneSelect
 
 func _init():
-	var hand = Team.draft_runes()
 	for i in range(6):
 		var pos = rune_pos("hand", i)
-		var r := instantiate_rune(pos.x, pos.y, false, hand[i])
+		var r := instantiate_rune(pos.x, pos.y, true)
 		add_child(r)
 		runes["hand"].append(r)
 	
@@ -48,6 +47,23 @@ func reset_cursor():
 	cursor_s = ["hand", 0]
 	state = State.RuneSelect
 	update_cursor()
+
+
+func new_turn():
+	for i in range(3):
+		for r: Rune in [runes["p1"][i], runes["p2"][i]]:
+			r.type = Rune.Type.Blank
+			r.empty = true
+			r.update_sprite()
+	
+	var hand = Team.draft_runes()
+	for i in range(6):
+		var r: Rune = runes["hand"][i]
+		r.type = hand[i]
+		r.empty = false
+		r.update_sprite()
+	
+	reset_cursor()
 
 
 func selected_rune() -> Rune:

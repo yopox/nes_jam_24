@@ -29,6 +29,8 @@ func _ready():
 		h.intent = Actions.Type.Atk
 		h.target = get_first_alive_enemy()
 		h.update_gui()
+	
+	slots.new_turn()
 
 
 func _process(_delta):
@@ -105,7 +107,7 @@ func a(state: Slots.State) -> void:
 
 func reset_runes():
 	slots.reset_cursor()
-	pass
+	slots.new_turn()
 
 
 func fight():
