@@ -105,7 +105,7 @@ func damage(amount: int) -> void:
 	HP -= final_amount
 	stats_node.stats_changed(self)
 	stats_node.update_status(self)
-	await Team.message(Text.damage(target, final_amount))
+	await Team.message(Text.damage(self, final_amount))
 	
 	if HP <= 0:
 		HP = 0
@@ -113,7 +113,7 @@ func damage(amount: int) -> void:
 		status.append(Actions.create_status(Status.Type.KO, 1))
 		stats_node.stats_changed(self)
 		stats_node.update_status(self)
-		await Team.message(Text.ko(target))
+		await Team.message(Text.ko(self))
 
 
 func heal(percent: int) -> void:
