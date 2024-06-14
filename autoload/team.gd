@@ -29,7 +29,7 @@ func message(text: String, confirm: bool = true) -> void:
 	fight.status.text = ""
 	for c in text:
 		fight.status.text += c
-		await get_tree().create_timer(0.01).timeout
+		await get_tree().create_timer(0.009).timeout
 	if confirm:
 		await Util.confirm
 		await get_tree().create_timer(0.01).timeout
