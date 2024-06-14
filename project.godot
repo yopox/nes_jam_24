@@ -21,6 +21,7 @@ Util="*res://autoload/util.gd"
 Team="*res://autoload/team.gd"
 Values="*res://autoload/values.gd"
 Actions="*res://autoload/actions.gd"
+Text="*res://autoload/text.gd"
 
 [display]
 

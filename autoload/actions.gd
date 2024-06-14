@@ -63,8 +63,8 @@ func resolve_action(action: Action) -> void:
 	for _i in range(action.times):
 		for target in targets:
 			if not target.is_alive():
-				if len(target) == 1:
-					await Team.message("%s waits." % fighter.name)
+				if len(targets) == 1:
+					await Team.message(Text.wait(fighter))
 				continue
 			match action.type:
 				Type.Atk:
@@ -79,7 +79,7 @@ func resolve_action(action: Action) -> void:
 						fighter.add_mark(Status.Type.Angel, action.angel)
 					# Apply damage
 					var damage = ceili(atk)
-					await Team.message("%s attacks %s!" % [fighter.name, target.name])
+					await Team.message(Text.attack(fighter, target))
 					if damage > 0:
 						await target.damage(damage)
 				Type.Def:
@@ -88,7 +88,7 @@ func resolve_action(action: Action) -> void:
 					if action.demon > 0:
 						fighter.add_mark(Status.Type.Demon, action.demon)
 					# Angel: consume marks
-					var angel = fighter.get_status_value(Status.Type.Angel)					
+					var angel = fighter.get_status_value(Status.Type.Angel)
 					if action.angel > 0:
 						fighter.remove_status(Status.Type.Angel)
 						fighter.heal(angel * Values.ANGEL_HEAL)

@@ -105,7 +105,7 @@ func damage(amount: int) -> void:
 	HP -= final_amount
 	stats_node.stats_changed(self)
 	stats_node.update_status(self)
-	await Team.message("%s takes %s damage!" % [name, final_amount])
+	await Team.message(Text.damage(target, final_amount))
 	
 	if HP <= 0:
 		HP = 0
@@ -113,7 +113,7 @@ func damage(amount: int) -> void:
 		status.append(Actions.create_status(Status.Type.KO, 1))
 		stats_node.stats_changed(self)
 		stats_node.update_status(self)
-		await Team.message("%s is K.O!" % name)
+		await Team.message(Text.ko(target))
 
 
 func heal(percent: int) -> void:
@@ -137,7 +137,7 @@ func defend(amount: int) -> void:
 		status.append(Actions.create_status(Status.Type.Defense, amount))
 	
 	stats_node.update_status(self)
-	await Team.message("%s is defending. (%s -> %s)" % [name, initial_def, final_def])
+	await Team.message(Text.defend(self, initial_def, final_def))
 
 
 func end_of_turn():
