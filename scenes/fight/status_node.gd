@@ -8,24 +8,41 @@ var status: Status
 
 
 func update() -> void:
-	letter_label.visible = true
-	value_label.visible = true
-	icon.visible = false
 	value_label.text = str(status.value)
 	match status.type:
 		Status.Type.Defense:
-			letter_label.visible = false
-			icon.visible = true
+			show_icon()
 		Status.Type.Poison:
+			show_letter()
 			letter_label.text = "P"
 			letter_label.self_modulate = Util.ACID_GREEN
 		Status.Type.Angel:
+			show_letter()
 			letter_label.text = "A"
 			letter_label.self_modulate = Util.YELLOW
 		Status.Type.Demon:
+			show_letter()
 			letter_label.text = "D"
 			letter_label.self_modulate = Util.DARK_RED
 		Status.Type.KO:
+			show_text()
 			letter_label.text = "K.O."
 			letter_label.self_modulate = Util.WHITE
-			value_label.visible = false
+
+
+func show_letter():
+	letter_label.visible = true
+	value_label.visible = true
+	icon.visible = false
+
+
+func show_icon():
+	letter_label.visible = false
+	value_label.visible = true
+	icon.visible = true
+
+
+func show_text():
+	letter_label.visible = true
+	value_label.visible = false
+	icon.visible = false
