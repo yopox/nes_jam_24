@@ -12,6 +12,13 @@ const GRAY = Color("#aaa4a5")
 
 var unique_id = 0
 
+signal confirm()
+
+
+func _input(event):
+	if event.is_action_pressed("a"):
+		confirm.emit()
+
 
 func get_unique_id():
 	unique_id += 1

@@ -53,10 +53,14 @@ func apply_rune(action: Action, rune: Rune.Type):
 
 func resolve_action(action: Action) -> void:
 	var fighter = action.fighter
-	var targets = [Team.fight.get_fighter_by_id(action.target)]
+	var targets : Array[Fighter] = [Team.fight.get_fighter_by_id(action.target)]
 	
 	for _i in range(action.times):
 		for target in targets:
+			if not target.is_alive():
+				if len(target) == 1:
+					await Team.message("%s waits." % fighter.name)
+				continue
 			match action.type:
 				Type.Atk:
 					var atk = fighter.ATK * action.power
@@ -69,7 +73,10 @@ func resolve_action(action: Action) -> void:
 					if action.angel > 0:
 						fighter.add_mark(Status.Type.Angel, action.angel)
 					# Apply damage
-					target.damage(ceili(atk))
+					var damage = ceili(atk)
+					await Team.message("%s attacks %s!" % [fighter.name, target.name])
+					if damage > 0:
+						await target.damage(damage)
 				Type.Def:
 					var def = action.fighter.DEF * action.power
 					# Demon: add a mark
@@ -80,7 +87,7 @@ func resolve_action(action: Action) -> void:
 					if action.angel > 0:
 						fighter.remove_status(Status.Type.Angel)
 						fighter.heal(angel * Values.ANGEL_HEAL)
-					target.defend(def)
+					await target.defend(def)
 
 
 func create_status(type: Status.Type, value: int) -> Status:

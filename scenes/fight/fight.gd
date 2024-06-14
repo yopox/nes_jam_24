@@ -32,6 +32,8 @@ func _ready():
 
 
 func _process(_delta):
+	if slots.state == Slots.State.Fight:
+		return
 	if Input.is_action_just_pressed("select"):
 		reset = !reset
 		if reset:
@@ -102,10 +104,12 @@ func a(state: Slots.State) -> void:
 
 
 func reset_runes():
+	slots.reset_cursor()
 	pass
 
 
 func fight():
+	slots.state = Slots.State.Fight
 	var p1_action = heroes[0].action()
 	for rune in slots.runes["p1"]:
 		if not rune.empty:
@@ -115,8 +119,8 @@ func fight():
 		if not rune.empty:
 			Actions.apply_rune(p2_action, rune.type)
 	
-	Actions.resolve_action(p1_action)
-	Actions.resolve_action(p2_action)
+	await Actions.resolve_action(p1_action)
+	await Actions.resolve_action(p2_action)
 	
 	for h in heroes:
 		h.end_of_turn()

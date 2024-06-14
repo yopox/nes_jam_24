@@ -15,7 +15,7 @@ var runes = {
 var cursor_p = ["hand", 0]
 var cursor_s = ["hand", 0]
 
-enum State { RuneSelect, RuneSwitch, P1Action, P1Target, P2Action, P2Target }
+enum State { RuneSelect, RuneSwitch, P1Action, P1Target, P2Action, P2Target, Fight }
 var state = State.RuneSelect
 
 func _init():
@@ -43,11 +43,20 @@ func _ready():
 	update_cursor()
 
 
+func reset_cursor():
+	cursor_p = ["hand", 0]
+	cursor_s = ["hand", 0]
+	state = State.RuneSelect
+	update_cursor()
+
+
 func selected_rune() -> Rune:
 	return runes[cursor_p[0]][cursor_p[1]]
 
 
 func _process(_delta):
+	if state == State.Fight:
+		return
 	if Input.is_action_just_pressed("a"):
 		fight.a(state)
 		match state:

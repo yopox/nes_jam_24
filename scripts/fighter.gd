@@ -87,6 +87,10 @@ func draft_enemy_runes():
 
 
 func damage(amount: int) -> void:
+	if not is_alive():
+		printerr("Dead fighters shouldn't be targeted")
+		return
+
 	var final_amount = amount
 	for s in status:
 		if s.type == Status.Type.Defense:
@@ -99,14 +103,17 @@ func damage(amount: int) -> void:
 				final_amount -= s.value
 				s.value = 0
 	HP -= final_amount
+	stats_node.stats_changed(self)
+	stats_node.update_status(self)
+	await Team.message("%s takes %s damage!" % [name, final_amount])
 	
 	if HP <= 0:
 		HP = 0
 		status.clear()
 		status.append(Actions.create_status(Status.Type.KO, 1))
-	
-	stats_node.stats_changed(self)
-	stats_node.update_status(self)
+		stats_node.stats_changed(self)
+		stats_node.update_status(self)
+		await Team.message("%s is K.O!" % name)
 
 
 func heal(percent: int) -> void:
@@ -116,14 +123,21 @@ func heal(percent: int) -> void:
 
 
 func defend(amount: int) -> void:
+	var existing = false
+	var initial_def = 0
+	var final_def = amount
 	for s in status:
 		if s.type == Status.Type.Defense:
+			initial_def = s.value
 			s.value += amount
 			s.value = min(s.value, Values.MAX_DEF)
-			stats_node.update_status(self)
-			return
-	status.append(Actions.create_status(Status.Type.Defense, amount))
+			final_def = s.value
+			existing = true
+	if not existing:
+		status.append(Actions.create_status(Status.Type.Defense, amount))
+	
 	stats_node.update_status(self)
+	await Team.message("%s is defending. (%s -> %s)" % [name, initial_def, final_def])
 
 
 func end_of_turn():
