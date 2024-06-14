@@ -53,7 +53,12 @@ func apply_rune(action: Action, rune: Rune.Type):
 
 func resolve_action(action: Action) -> void:
 	var fighter = action.fighter
-	var targets : Array[Fighter] = [Team.fight.get_fighter_by_id(action.target)]
+	var targets : Array[Fighter] = []
+	
+	if action.target == -1:
+		targets.append(fighter)
+	else:
+		targets.append(Team.fight.get_fighter_by_id(action.target))
 	
 	for _i in range(action.times):
 		for target in targets:

@@ -110,17 +110,36 @@ func reset_runes():
 
 func fight():
 	slots.state = Slots.State.Fight
+	var actions: Array[Actions.Action] = []
+	
 	var p1_action = heroes[0].action()
 	for rune in slots.runes["p1"]:
 		if not rune.empty:
 			Actions.apply_rune(p1_action, rune.type)
+	actions.append(p1_action)
+	
 	var p2_action = heroes[1].action()
 	for rune in slots.runes["p2"]:
 		if not rune.empty:
 			Actions.apply_rune(p2_action, rune.type)
+	actions.append(p2_action)
 	
-	await Actions.resolve_action(p1_action)
-	await Actions.resolve_action(p2_action)
+	for enemy: Fighter in enemies.get_children():
+		if enemy.is_alive():
+			var e_action = enemy.action()
+			for rune: Rune in enemy.enemy_rune_nodes:
+				Actions.apply_rune(e_action, rune.type)
+			actions.append(e_action)
+	
+	# Defense has priority
+	for action in actions:
+		if action.type == Actions.Type.Def:
+			await Actions.resolve_action(action)
+	
+	# Resolve non defense actions
+	for action in actions:
+		if action.type != Actions.Type.Def:
+			await Actions.resolve_action(action)
 	
 	for h in heroes:
 		h.end_of_turn()
