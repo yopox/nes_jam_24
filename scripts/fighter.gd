@@ -68,6 +68,8 @@ func cycle_action():
 
 func cycle_target():
 	target = Team.fight.get_next_target(target)
+	while not Team.fight.get_fighter_by_id(target).is_alive():
+		target = Team.fight.get_next_target(target)
 	update_gui()
 
 
@@ -158,6 +160,20 @@ func end_of_turn():
 	for i in expired:
 		status.remove_at(i)
 	stats_node.update_status(self)
+
+	var t: Fighter
+	if target == -1:
+		t = self
+	else:
+		t = Team.fight.get_fighter_by_id(target)
+	
+	if not t.is_alive():
+		if t in Team.fight.heroes:
+			target = Team.fight.get_first_alive_ally().id
+			action_changed.emit(id, intent, target)
+		else:
+			target = Team.fight.get_first_alive_enemy().id
+			action_changed.emit(id, intent, target)
 
 
 func add_mark(type: Status.Type, amount: int) -> void:
