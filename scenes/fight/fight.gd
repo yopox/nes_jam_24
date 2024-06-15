@@ -11,6 +11,7 @@ class_name Fight extends Node2D
 @export var heroes: Array[Fighter] = []
 @onready var enemies: Container = $Enemies
 
+var turn = 1
 
 var reset := false
 
@@ -93,6 +94,27 @@ func get_first_alive_enemy() -> int:
 	return -1
 
 
+func get_allies() -> Array[Fighter]:
+	return heroes.filter(func(f: Fighter): return f.is_alive())
+
+
+func get_enemies() -> Array[Fighter]:
+	var e = enemies.get_children() as Array[Fighter]
+	return e.filter(func(f: Fighter): return f.is_alive())
+
+
+func get_random_ally() -> Fighter: return get_allies().pick_random()
+func get_random_enemy() -> Fighter: return get_enemies().pick_random()
+func get_weakest_enemy() -> Fighter: return Util.min_by_hp(get_enemies())
+func get_weakest_ally() -> Fighter: return Util.min_by_hp(get_allies())
+func get_strongest_enemy() -> Fighter: return Util.max_by_hp(get_enemies())
+func get_strongest_ally() -> Fighter: return Util.max_by_hp(get_allies())
+func get_random_fighter() -> Fighter:
+	var fighters = get_allies()
+	fighters.append_array(get_enemies())
+	return fighters.pick_random()
+
+
 func a(state: Slots.State) -> void:
 	match state:
 		Slots.State.P1Action:
@@ -149,4 +171,5 @@ func fight():
 		e.end_of_turn()
 
 	reset_runes()
+	turn += 1
 	

@@ -39,3 +39,27 @@ func distinct(n: int, from: int, to: int) -> Array:
 		drafted.append(i)
 	
 	return drafted
+
+
+func min_by_hp(fighters: Array[Fighter]) -> Fighter:
+	if fighters.is_empty():
+		return null
+	
+	var min_fighter = fighters[0]
+	for fighter in fighters:
+		if fighter.HP < min_fighter.HP:
+			min_fighter = fighter
+	
+	return min_fighter
+
+
+func max_by_hp(fighters: Array[Fighter]) -> Fighter:
+	if fighters.is_empty():
+		return null
+	
+	var max_fighter = fighters[0]
+	for fighter in fighters:
+		if fighter.HP > max_fighter.HP:
+			max_fighter = fighter
+	
+	return max_fighter

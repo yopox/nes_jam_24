@@ -1,6 +1,6 @@
 class_name Fighter extends Node
 
-enum Type { Fighter, Knight }
+enum Type { Fighter, Knight,  }
 
 enum Stat { HP, ATK, DEF }
 
