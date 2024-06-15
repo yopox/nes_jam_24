@@ -22,13 +22,20 @@ func _enter_tree():
 
 func _ready():
 	set_status(slots.selected_rune().description())
+	
+	var chou = load("res://scenes/enemies/Chou.tscn")
+	for i in range(2):
+		var e: Fighter = chou.instantiate()
+		e.name = e.name + " " + str(i + 1)
+		enemies.add_child(e)
+	
 	for e in enemies.get_children():
 		e.reset()
 		e.draft_enemy_runes()
 	for h in heroes:
 		h.reset()
 		h.intent = Actions.Type.Atk
-		h.target = get_first_alive_enemy()
+		h.target = get_first_alive_enemy().id
 		h.update_gui()
 	
 	slots.new_turn()
@@ -87,11 +94,18 @@ func get_next_target(target: int) -> int:
 	return heroes[0].id
 
 
-func get_first_alive_enemy() -> int:
-	for e in enemies.get_children():
+func get_first_alive_enemy() -> Fighter:
+	for e: Fighter in enemies.get_children():
 		if e.is_alive():
-			return e.id
-	return -1
+			return e
+	return null
+
+
+func get_first_alive_ally() -> Fighter:
+	for e: Fighter in heroes:
+		if e.is_alive():
+			return e
+	return null
 
 
 func get_allies() -> Array[Fighter]:

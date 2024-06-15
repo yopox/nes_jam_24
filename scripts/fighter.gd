@@ -1,11 +1,13 @@
 class_name Fighter extends Node
 
-enum Type { Fighter, Knight,  }
+enum Type { Fighter, Knight, Chou }
 
 enum Stat { HP, ATK, DEF }
 
 var weapon = null
 var spell = null
+
+@export var type: Type
 
 @export var MAX_HP: int = 100
 var HP: int = MAX_HP
@@ -60,7 +62,7 @@ func cycle_action():
 			target = id
 		Actions.Type.Def:
 			intent = Actions.Type.Atk
-			target = Team.fight.get_first_alive_enemy()
+			target = Team.fight.get_first_alive_enemy().id
 	update_gui()
 
 
@@ -71,14 +73,18 @@ func cycle_target():
 
 func action() -> Actions.Action:
 	var act = Actions.Action.new()
+	var fight: Fight = Team.fight
+	
 	act.fighter = self
 	act.type = intent
 	act.target = target
+	
+	pick_enemy_action(act, fight)
 	return act
 
 
 func draft_enemy_runes():
-	var draft = Util.distinct(len(enemy_rune_nodes), 0, len(runes) - 1)
+	var draft: Array = Util.distinct(len(enemy_rune_nodes), 0, len(runes) - 1)
 	draft.sort()
 	draft.reverse()
 	for i in range(len(enemy_rune_nodes)):
@@ -181,3 +187,18 @@ func remove_status(type: Status.Type) -> void:
 	if to_remove != -1:
 		status.remove_at(to_remove)
 	stats_node.update_status(self)
+
+
+func pick_enemy_action(action: Actions.Action, fight: Fight) -> void:
+	match type:
+		Type.Chou:
+			if HP > MAX_HP / 2:
+				action.type = Actions.Type.Atk
+				action.target = fight.get_random_ally().id
+			else:
+				action.type = Actions.Type.Def
+				action.target = id
+		Type.Fighter:
+			pass
+		Type.Knight:
+			pass

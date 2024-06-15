@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bvog7xiljehg2"]
+[gd_scene load_steps=12 format=3 uid="uid://bvog7xiljehg2"]
 
 [ext_resource type="Script" path="res://scenes/fight/fight.gd" id="1_cegb8"]
 [ext_resource type="Texture2D" uid="uid://fusrhti4l6xj" path="res://assets/fight_bg.png" id="1_q3qwi"]
@@ -7,7 +7,6 @@
 [ext_resource type="Theme" uid="uid://d3g8e6rb5kn77" path="res://assets/theme.tres" id="4_10dxc"]
 [ext_resource type="PackedScene" uid="uid://d2gth7da186vm" path="res://scenes/fight/hero.tscn" id="6_ei2fy"]
 [ext_resource type="Theme" uid="uid://bi6jtu1txykgc" path="res://assets/theme_bold.tres" id="7_gr22p"]
-[ext_resource type="PackedScene" uid="uid://d1eb0i0rd03cu" path="res://scenes/enemies/Bulix.tscn" id="7_md4dp"]
 [ext_resource type="PackedScene" uid="uid://dk62tipiy4qph" path="res://scenes/fight/action_select.tscn" id="7_wfhrf"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_2w2rk"]
@@ -57,18 +56,12 @@ position = Vector2(-1, 32)
 p1 = false
 
 [node name="Enemies" type="HBoxContainer" parent="."]
-offset_left = -112.0
+offset_left = -120.0
 offset_top = -108.0
-offset_right = 112.0
+offset_right = 120.0
 offset_bottom = -28.0
 size_flags_horizontal = 4
 alignment = 1
-
-[node name="Bulix" parent="Enemies" instance=ExtResource("7_md4dp")]
-layout_mode = 2
-
-[node name="Bulix 2" parent="Enemies" instance=ExtResource("7_md4dp")]
-layout_mode = 2
 
 [node name="ActionBox" type="Node" parent="."]
 
