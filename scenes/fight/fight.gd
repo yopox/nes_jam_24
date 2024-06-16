@@ -11,7 +11,7 @@ class_name Fight extends Node2D
 @export var heroes: Array[Fighter] = []
 @onready var enemies: Container = $Enemies
 
-var turn = 1
+var turn = 0
 
 var reset := false
 
@@ -24,21 +24,22 @@ func _ready():
 	set_status(slots.selected_rune().description())
 	
 	var chou = load("res://scenes/enemies/Chou.tscn")
-	for i in range(2):
-		var e: Fighter = chou.instantiate()
-		e.name = e.name + " " + str(i + 1)
-		enemies.add_child(e)
+	var e1: Fighter = chou.instantiate()
+	enemies.add_child(e1)
+	
+	var piou = load("res://scenes/enemies/Piou.tscn")
+	var e2: Fighter = piou.instantiate()
+	enemies.add_child(e2)
 	
 	for e in enemies.get_children():
 		e.reset()
-		e.draft_enemy_runes()
 	for h in heroes:
 		h.reset()
 		h.intent = Actions.Type.Atk
 		h.target = get_first_alive_enemy().id
 		h.update_gui()
 	
-	slots.new_turn()
+	new_turn()
 
 
 func _process(_delta):
@@ -108,12 +109,12 @@ func get_first_alive_ally() -> Fighter:
 	return null
 
 
-func get_allies() -> Array[Fighter]:
+func get_allies() -> Array:
 	return heroes.filter(func(f: Fighter): return f.is_alive())
 
 
-func get_enemies() -> Array[Fighter]:
-	var e = enemies.get_children() as Array[Fighter]
+func get_enemies() -> Array:
+	var e = enemies.get_children()
 	return e.filter(func(f: Fighter): return f.is_alive())
 
 
@@ -142,6 +143,22 @@ func a(state: Slots.State) -> void:
 
 
 func reset_runes():
+	slots.reset_cursor()
+	slots.reset_positions()
+
+
+func new_turn() -> void:
+	turn += 1
+
+	for e: Fighter in enemies.get_children():
+		e.clear_enemy_runes()
+
+	await Util.wait(0.25)
+
+	for e: Fighter in enemies.get_children():
+		if e.is_alive():
+			e.draft_enemy_runes()
+
 	slots.reset_cursor()
 	slots.new_turn()
 
@@ -184,6 +201,4 @@ func fight():
 	for e in enemies.get_children():
 		e.end_of_turn()
 
-	reset_runes()
-	turn += 1
-	
+	new_turn()

@@ -41,25 +41,29 @@ func distinct(n: int, from: int, to: int) -> Array:
 	return drafted
 
 
-func min_by_hp(fighters: Array[Fighter]) -> Fighter:
+func min_by_hp(fighters: Array) -> Fighter:
 	if fighters.is_empty():
 		return null
 	
-	var min_fighter = fighters[0]
-	for fighter in fighters:
+	var min_fighter = fighters[0] as Fighter
+	for fighter: Fighter in fighters:
 		if fighter.HP < min_fighter.HP:
 			min_fighter = fighter
 	
 	return min_fighter
 
 
-func max_by_hp(fighters: Array[Fighter]) -> Fighter:
+func max_by_hp(fighters: Array) -> Fighter:
 	if fighters.is_empty():
 		return null
 	
-	var max_fighter = fighters[0]
-	for fighter in fighters:
+	var max_fighter = fighters[0] as Fighter
+	for fighter: Fighter in fighters:
 		if fighter.HP > max_fighter.HP:
 			max_fighter = fighter
 	
 	return max_fighter
+
+
+func wait(amount: float):
+	await get_tree().create_timer(amount).timeout

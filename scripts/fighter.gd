@@ -1,6 +1,6 @@
 class_name Fighter extends Node
 
-enum Type { Fighter, Knight, Chou }
+enum Type { Fighter, Knight, Chou, Piou }
 
 enum Stat { HP, ATK, DEF }
 
@@ -85,12 +85,21 @@ func action() -> Actions.Action:
 	return act
 
 
+func clear_enemy_runes():
+	for i in range(len(enemy_rune_nodes)):
+		enemy_rune_nodes[i].empty = true
+		await Util.wait(0.035)
+		enemy_rune_nodes[i].update_sprite()
+
+
 func draft_enemy_runes():
 	var draft: Array = Util.distinct(len(enemy_rune_nodes), 0, len(runes) - 1)
 	draft.sort()
 	draft.reverse()
 	for i in range(len(enemy_rune_nodes)):
+		enemy_rune_nodes[i].empty = false
 		enemy_rune_nodes[i].type = runes[draft[i]]
+		await Util.wait(0.1)
 		enemy_rune_nodes[i].update_sprite()
 
 
@@ -145,7 +154,6 @@ func defend(amount: int) -> void:
 		status.append(Actions.create_status(Status.Type.Defense, amount))
 	
 	stats_node.update_status(self)
-	await Team.message(Text.defend(self, initial_def, final_def))
 
 
 func end_of_turn():
@@ -214,6 +222,9 @@ func pick_enemy_action(action: Actions.Action, fight: Fight) -> void:
 			else:
 				action.type = Actions.Type.Def
 				action.target = id
+		Type.Piou:
+			action.type = Actions.Type.Def
+			action.target = fight.get_weakest_enemy().id
 		Type.Fighter:
 			pass
 		Type.Knight:

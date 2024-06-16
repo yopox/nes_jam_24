@@ -15,6 +15,8 @@ var runes = {
 var cursor_p = ["hand", 0]
 var cursor_s = ["hand", 0]
 
+var hand: Array[Rune.Type]
+
 enum State { RuneSelect, RuneSwitch, P1Action, P1Target, P2Action, P2Target, Fight, Wait }
 var state = State.RuneSelect
 
@@ -49,6 +51,20 @@ func reset_cursor():
 	update_cursor()
 
 
+func reset_positions() -> void:
+	for i in range(3):
+		for r: Rune in [runes["p1"][i], runes["p2"][i]]:
+			r.type = Rune.Type.Blank
+			r.empty = true
+			r.update_sprite()
+
+	for i in range(6):
+		var r: Rune = runes["hand"][i]
+		r.empty = false
+		r.type = hand[i]
+		r.update_sprite()
+
+
 func new_turn():
 	state = State.Wait
 	
@@ -58,25 +74,24 @@ func new_turn():
 			r.empty = true
 			r.update_sprite()
 	
-	var hand = Team.draft_runes()
+	hand = Team.draft_runes()
 	
 	for i in range(6):
 		var r: Rune = runes["hand"][i]
 		r.empty = true
-		await get_tree().create_timer(0.035).timeout
+		await Util.wait(0.035)
 		r.update_sprite()
 	
-	await get_tree().create_timer(0.25).timeout
+	await Util.wait(0.25)
 	
 	for i in range(6):
-		await get_tree().create_timer(0.075).timeout
+		await Util.wait(0.075)
 		var r: Rune = runes["hand"][i]
 		r.type = hand[i]
 		r.empty = false
 		r.update_sprite()
 	
 	state = State.RuneSelect
-	
 	reset_cursor()
 
 
@@ -185,7 +200,7 @@ func right():
 			cursor_p = ["p1", 0]
 		elif state in [State.P2Action, State.P2Target]:
 			state = State.RuneSelect
-			cursor_p = ["p2", 0]			
+			cursor_p = ["p2", 0]
 		else:
 			cursor_p[1] = posmod(cursor_p[1] + 1, len(runes[cursor_p[0]]))
 	update_cursor()
@@ -202,7 +217,7 @@ func left():
 			cursor_p = ["p1", len(runes["p1"]) - 1]
 		elif state in [State.P2Action, State.P2Target]:
 			state = State.RuneSelect
-			cursor_p = ["p2", len(runes["p2"]) - 1]	
+			cursor_p = ["p2", len(runes["p2"]) - 1]
 		else:
 			cursor_p[1] = posmod(cursor_p[1] - 1, len(runes[cursor_p[0]]))
 	update_cursor()
