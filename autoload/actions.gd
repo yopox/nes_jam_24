@@ -92,7 +92,8 @@ func resolve_action(action: Action) -> void:
 					if action.angel > 0:
 						fighter.remove_status(Status.Type.Angel)
 						fighter.heal(angel * Values.ANGEL_HEAL)
-					await target.defend(def)
+					target.defend(def)
+					await Team.message(Text.defend(fighter, target))
 
 
 func create_status(type: Status.Type, value: int) -> Status:

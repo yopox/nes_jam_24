@@ -9,8 +9,11 @@ func attack(fighter: Fighter, target: Fighter) -> String:
 	return "%s attacks %s!" % [fighter.name, target.name]
 
 
-func defend(fighter: Fighter, from: int, to: int) -> String:
-	return "%s is defending. (%s -> %s)" % [fighter.name, from, to]
+func defend(fighter: Fighter, target: Fighter) -> String:
+	if fighter == target:
+		return "%s is defending." % fighter.name
+	else:
+		return "%s defends %s." % [fighter.name, target.name]
 
 
 func damage(fighter: Fighter, amount: int) -> String:
