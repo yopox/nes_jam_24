@@ -20,7 +20,7 @@ func _input(event):
 		confirm.emit()
 
 
-func get_unique_id():
+func get_unique_id() -> int:
 	unique_id += 1
 	return unique_id
 

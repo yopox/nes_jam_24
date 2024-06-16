@@ -60,6 +60,16 @@ func resolve_action(action: Action) -> void:
 	else:
 		targets.append(Team.fight.get_fighter_by_id(action.target))
 	
+	if action.target_all:
+		if targets[0] in Team.fight.heroes:
+			for f in Team.fight.get_heroes():
+				if not f in targets:
+					targets.append(f)
+		else:
+			for f in Team.fight.get_enemies():
+				if not f in targets:
+					targets.append(f)
+	
 	for _i in range(action.times):
 		for target in targets:
 			if not target.is_alive():

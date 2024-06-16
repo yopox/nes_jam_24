@@ -19,7 +19,7 @@ func reset():
 	empty = true
 
 
-func update_sprite():
+func update_sprite() -> void:
 	var texture := sprite.texture as AtlasTexture
 	if empty:
 		texture.region.position = Vector2(0, texture.region.position.y)
