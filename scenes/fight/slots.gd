@@ -15,7 +15,7 @@ var runes = {
 var cursor_p = ["hand", 0]
 var cursor_s = ["hand", 0]
 
-enum State { RuneSelect, RuneSwitch, P1Action, P1Target, P2Action, P2Target, Fight }
+enum State { RuneSelect, RuneSwitch, P1Action, P1Target, P2Action, P2Target, Fight, Wait }
 var state = State.RuneSelect
 
 func _init():
@@ -50,6 +50,8 @@ func reset_cursor():
 
 
 func new_turn():
+	state = State.Wait
+	
 	for i in range(3):
 		for r: Rune in [runes["p1"][i], runes["p2"][i]]:
 			r.type = Rune.Type.Blank
@@ -57,11 +59,23 @@ func new_turn():
 			r.update_sprite()
 	
 	var hand = Team.draft_runes()
+	
 	for i in range(6):
+		var r: Rune = runes["hand"][i]
+		r.empty = true
+		await get_tree().create_timer(0.035).timeout
+		r.update_sprite()
+	
+	await get_tree().create_timer(0.25).timeout
+	
+	for i in range(6):
+		await get_tree().create_timer(0.075).timeout
 		var r: Rune = runes["hand"][i]
 		r.type = hand[i]
 		r.empty = false
 		r.update_sprite()
+	
+	state = State.RuneSelect
 	
 	reset_cursor()
 
@@ -71,7 +85,7 @@ func selected_rune() -> Rune:
 
 
 func _process(_delta):
-	if state == State.Fight:
+	if state in [State.Fight, State.Wait]:
 		return
 	if Input.is_action_just_pressed("a"):
 		fight.a(state)
@@ -83,6 +97,9 @@ func _process(_delta):
 					state = State.RuneSwitch
 					cursor_s[0] = cursor_p[0]
 					cursor_s[1] = cursor_p[1]
+					if cursor_p[0] == "hand":
+						cursor_p[0] = "p1"
+						cursor_p[1] = 0
 					update_cursor()
 			State.RuneSwitch:
 				var new = selected_rune()
