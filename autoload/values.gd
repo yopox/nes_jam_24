@@ -1,5 +1,10 @@
 extends Node
 
+const all_runes = [
+	Rune.Type.Blank, Rune.Type.Flex, Rune.Type.Poison, Rune.Type.Thunder, Rune.Type.Loop,
+	Rune.Type.Demon, Rune.Type.Angel, Rune.Type.Curse
+]
+
 # CONSTANTS
 const FLEX_BOOST: int = 50
 const THUNDER_NERF: int = 30

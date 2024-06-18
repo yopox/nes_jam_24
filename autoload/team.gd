@@ -1,6 +1,9 @@
 extends Node
 
-var runes = []
+var hero1: Fighter = load("res://scenes/fight/hero.tscn").instantiate()
+var hero2: Fighter = load("res://scenes/fight/hero.tscn").instantiate()
+
+var runes: Array[Rune.Type] = []
 var fight: Fight
 
 func _init():
@@ -9,7 +12,7 @@ func _init():
 
 func reset_runes():
 	runes.clear()
-	for i in range(8):
+	for i in range(6):
 		runes.append(Rune.Type.Blank)
 	for i in range(2):
 		runes.append(Rune.Type.Flex)

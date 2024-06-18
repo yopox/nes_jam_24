@@ -22,6 +22,7 @@ Team="*res://autoload/team.gd"
 Values="*res://autoload/values.gd"
 Actions="*res://autoload/actions.gd"
 Text="*res://autoload/text.gd"
+Perks="*res://autoload/perks.gd"
 
 [display]
 

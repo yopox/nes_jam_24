@@ -5,7 +5,7 @@ enum Type { Fighter, Knight, Chou, Piou }
 enum Stat { HP, ATK, DEF }
 
 var weapon = null
-var spell = null
+var perks = {}
 
 @export var type: Type
 
@@ -52,11 +52,8 @@ func update_gui():
 func cycle_action():
 	match intent:
 		Actions.Type.Atk:
-			if spell != null:
-				intent = Actions.Type.Spl
-			else:
-				intent = Actions.Type.Def
-				target = id
+			intent = Actions.Type.Def
+			target = id
 		Actions.Type.Spl:
 			intent = Actions.Type.Def
 			target = id
@@ -229,3 +226,7 @@ func pick_enemy_action(action: Actions.Action, fight: Fight) -> void:
 			pass
 		Type.Knight:
 			pass
+
+
+func is_perk_available(code: String) -> bool:
+	return Perks.unlocked(Perks.codes[code], perks)
