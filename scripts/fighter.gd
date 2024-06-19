@@ -11,7 +11,7 @@ var HP: int = MAX_HP
 @export var ATK: int = 10
 @export var DEF: int = 5
 
-@export var perk_points = 10
+@export var perk_points = 99
 var perks = {}
 
 @export var runes: Array[Rune.Type] = []
@@ -166,11 +166,8 @@ func end_of_turn():
 		status.remove_at(i)
 	stats_node.update_status(self)
 
-	var t: Fighter
-	if target == -1:
-		t = self
-	else:
-		t = Team.fight.get_fighter_by_id(target)
+	var t: Fighter = self if target == -1 \
+						  else Team.fight.get_fighter_by_id(target)
 	
 	if not t.is_alive():
 		if t in Team.fight.heroes:
@@ -235,6 +232,9 @@ func is_perk_available(code: String) -> bool:
 func buy_perk(perk: Perks.Type) -> void:
 	var cost = Perks.costs[perk]
 	if not Perks.unlocked(perk, perks):
+		return
+	var max_owned = Perks.quantities[perk]
+	if max_owned != -1 and perks.has(perk) and perks[perk] >= Perks.quantities[perk]:
 		return
 	if perk_points >= cost:
 		perk_points -= cost

@@ -14,6 +14,11 @@ var branches
 var branch_sprites = {}
 
 @export var cursor_sprite: Sprite2D
+@onready var tree: Node2D = $Tree
+@onready var name_label: Label = $Name
+@onready var desc_label: Label = $Description
+@onready var p1pts: Label = $Tree/P1Pts
+@onready var p2pts: Label = $Tree/P2Pts
 
 enum PerkState { Bought, Available, Locked }
 
@@ -48,7 +53,7 @@ func _ready():
 				border.position = pos(i, j, k) + Vector2(4, 4)
 				branch_sprites["p-%s-%s-%s" % [i, j, k]] = border
 				update_perk(i, j, k)
-				add_child(border)
+				tree.add_child(border)
 			
 				if k > 0:
 					var link = Sprite2D.new()
@@ -60,7 +65,7 @@ func _ready():
 					link.position = pos(i, j, k) + Vector2(4, -4)
 					branch_sprites["l-%s-%s-%s" % [i, j, k]] = link
 					update_link(i, j, k)
-					add_child(link)
+					tree.add_child(link)
 
 
 func _process(delta):
@@ -111,6 +116,8 @@ func left():
 func update_cursor():
 	var hero_i = 0 if cursor.p1 else 1
 	cursor_sprite.position = pos(hero_i, cursor.branch, cursor.perk)
+	name_label.text = Text.perk_name(cursor.get_perk(), Team.hero1 if cursor.p1 else Team.hero2)
+	desc_label.text = Text.perk_description(cursor.get_perk())
 
 
 func pos(perso: int, branch: int, perk: int) -> Vector2:
@@ -135,7 +142,7 @@ func update_perk(i: int, j: int, k: int) -> void:
 
 
 func get_perk_state(i: int, j: int, k: int) -> PerkState:
-	var perk_code = "%s-%s" % [j, k]	
+	var perk_code = "%s-%s" % [j, k]
 	var perk = Perks.codes[perk_code]
 	var hero = Team.hero1 if cursor.p1 else Team.hero2
 	
@@ -177,3 +184,5 @@ func buy_perk() -> void:
 	for b in range(4):
 		for p in range(7):
 			update_perk(0 if cursor.p1 else 1, b, p)
+	p1pts.text = "%s %s" % [Team.hero1.perk_points, "pts" if Team.hero1.perk_points != 1 else "pt"]
+	p2pts.text = "%s %s" % [Team.hero2.perk_points, "pts" if Team.hero2.perk_points != 1 else "pt"]

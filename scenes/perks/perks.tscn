@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://b0f37lt7gwnf7"]
+[gd_scene load_steps=10 format=3 uid="uid://b0f37lt7gwnf7"]
 
 [ext_resource type="Script" path="res://scenes/perks/perks_scene.gd" id="1_m7c50"]
 [ext_resource type="Texture2D" uid="uid://ds10wpwl833ge" path="res://assets/tree_bg.png" id="2_4jbdd"]
@@ -7,6 +7,7 @@
 [ext_resource type="Theme" uid="uid://bi6jtu1txykgc" path="res://assets/theme_bold.tres" id="5_b5q8e"]
 [ext_resource type="PackedScene" uid="uid://d2gth7da186vm" path="res://scenes/fight/hero.tscn" id="6_dddle"]
 [ext_resource type="Texture2D" uid="uid://cu2f78nkaflvy" path="res://assets/perks.png" id="7_37kww"]
+[ext_resource type="Theme" uid="uid://d3g8e6rb5kn77" path="res://assets/theme.tres" id="8_1456k"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mhqh3"]
 atlas = ExtResource("3_6s0v6")
@@ -24,77 +25,135 @@ p2_atk = NodePath("Tree/P2Attack")
 p2_def = NodePath("Tree/P2Defense")
 cursor_sprite = NodePath("Tree/Arrow")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Background" type="Sprite2D" parent="."]
 texture = ExtResource("2_4jbdd")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
-[node name="Tree" type="Node" parent="."]
+[node name="Hero1" type="Node2D" parent="."]
+position = Vector2(-108, -104)
 
-[node name="P1Angel" type="Node2D" parent="Tree"]
-position = Vector2(-104, -56)
+[node name="Hero" parent="Hero1" instance=ExtResource("6_dddle")]
 
-[node name="P1Demon" type="Node2D" parent="Tree"]
-position = Vector2(-80, -56)
-
-[node name="P1Attack" type="Node2D" parent="Tree"]
-position = Vector2(-56, -56)
-
-[node name="P1Defense" type="Node2D" parent="Tree"]
-position = Vector2(-32, -56)
-
-[node name="P2Angel" type="Node2D" parent="Tree"]
-position = Vector2(24, -56)
-
-[node name="P2Demon" type="Node2D" parent="Tree"]
-position = Vector2(48, -56)
-
-[node name="P2Attack" type="Node2D" parent="Tree"]
-position = Vector2(72, -56)
-
-[node name="P2Defense" type="Node2D" parent="Tree"]
-position = Vector2(96, -56)
-
-[node name="Arrow" type="Sprite2D" parent="Tree"]
-position = Vector2(-104, -56)
-rotation = 1.5708
-texture = SubResource("AtlasTexture_mhqh3")
-offset = Vector2(4, 12)
-
-[node name="RuneCountContainer" type="HBoxContainer" parent="."]
-offset_left = -116.0
-offset_top = 72.0
-offset_right = 116.0
-offset_bottom = 96.0
-theme_override_constants/separation = 1
-alignment = 1
-script = ExtResource("4_e6s56")
-
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
-offset_left = -120.0
-offset_top = -76.0
-offset_right = -8.0
-offset_bottom = -64.0
+[node name="Stats" type="HBoxContainer" parent="Hero1"]
+offset_left = -12.0
+offset_top = 26.0
+offset_right = 100.0
+offset_bottom = 38.0
 theme_override_constants/separation = 8
 alignment = 1
 
-[node name="Label" type="Label" parent="HBoxContainer"]
+[node name="Label" type="Label" parent="Hero1/Stats"]
 layout_mode = 2
 theme = ExtResource("5_b5q8e")
 text = "ATK 20"
 
-[node name="Label2" type="Label" parent="HBoxContainer"]
+[node name="Label2" type="Label" parent="Hero1/Stats"]
 layout_mode = 2
 theme = ExtResource("5_b5q8e")
 text = "DEF 15"
 
-[node name="Hero" parent="." instance=ExtResource("6_dddle")]
-position = Vector2(-108, -104)
+[node name="Hero2" type="Node2D" parent="."]
+position = Vector2(20, -104)
 
-[node name="PerksP1" type="Sprite2D" parent="."]
-position = Vector2(-64, -4)
+[node name="Hero" parent="Hero2" instance=ExtResource("6_dddle")]
+
+[node name="Stats" type="HBoxContainer" parent="Hero2"]
+offset_left = -12.0
+offset_top = 26.0
+offset_right = 100.0
+offset_bottom = 38.0
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="Label" type="Label" parent="Hero2/Stats"]
+layout_mode = 2
+theme = ExtResource("5_b5q8e")
+text = "ATK 20"
+
+[node name="Label2" type="Label" parent="Hero2/Stats"]
+layout_mode = 2
+theme = ExtResource("5_b5q8e")
+text = "DEF 15"
+
+[node name="Tree" type="Node2D" parent="."]
+position = Vector2(-104, -60)
+
+[node name="P1Angel" type="Node2D" parent="Tree"]
+
+[node name="P1Demon" type="Node2D" parent="Tree"]
+position = Vector2(24, 0)
+
+[node name="P1Attack" type="Node2D" parent="Tree"]
+position = Vector2(48, 0)
+
+[node name="P1Defense" type="Node2D" parent="Tree"]
+position = Vector2(72, 0)
+
+[node name="P2Angel" type="Node2D" parent="Tree"]
+position = Vector2(128, 0)
+
+[node name="P2Demon" type="Node2D" parent="Tree"]
+position = Vector2(152, 0)
+
+[node name="P2Attack" type="Node2D" parent="Tree"]
+position = Vector2(176, 0)
+
+[node name="P2Defense" type="Node2D" parent="Tree"]
+position = Vector2(200, 0)
+
+[node name="Arrow" type="Sprite2D" parent="Tree"]
+rotation = 1.5708
+texture = SubResource("AtlasTexture_mhqh3")
+offset = Vector2(4, 12)
+
+[node name="PerksP1" type="Sprite2D" parent="Tree"]
+position = Vector2(40, 52)
 texture = ExtResource("7_37kww")
 
-[node name="PerksP2" type="Sprite2D" parent="."]
-position = Vector2(64, -4)
+[node name="PerksP2" type="Sprite2D" parent="Tree"]
+position = Vector2(168, 52)
 texture = ExtResource("7_37kww")
+
+[node name="P1Pts" type="Label" parent="Tree"]
+offset_left = -14.0
+offset_top = 99.0
+offset_right = 92.0
+offset_bottom = 109.0
+theme = ExtResource("5_b5q8e")
+text = "99 pts"
+horizontal_alignment = 2
+
+[node name="P2Pts" type="Label" parent="Tree"]
+offset_left = 114.0
+offset_top = 99.0
+offset_right = 220.0
+offset_bottom = 109.0
+theme = ExtResource("5_b5q8e")
+text = "99 pts"
+horizontal_alignment = 2
+
+[node name="RuneCountContainer" type="HBoxContainer" parent="."]
+offset_left = -116.0
+offset_top = 66.0
+offset_right = 116.0
+offset_bottom = 90.0
+theme_override_constants/separation = 1
+alignment = 1
+script = ExtResource("4_e6s56")
+
+[node name="Name" type="Label" parent="."]
+offset_left = -110.0
+offset_top = 92.0
+offset_right = 16.0
+offset_bottom = 102.0
+theme = ExtResource("5_b5q8e")
+text = "Humility • 1 pt • 0 / inf"
+
+[node name="Description" type="Label" parent="."]
+offset_left = -110.0
+offset_top = 102.0
+offset_right = -5.0
+offset_bottom = 112.0
+theme = ExtResource("8_1456k")
+text = "Unlock 1 angel rune."

@@ -13,7 +13,7 @@ class Action:
 	var times: int = 1
 	var power: float = 1.0
 	var angel: int = 0
-	var demon: int = 0	
+	var demon: int = 0
 	
 	func _to_string() -> String:
 		return "%s %s -> %s / power %s" % [type, fighter.name, target, power]
