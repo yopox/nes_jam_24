@@ -35,20 +35,28 @@ position = Vector2(-108, -104)
 
 [node name="Hero" parent="Hero1" instance=ExtResource("6_dddle")]
 
+[node name="Hp" type="Label" parent="Hero1/Hero"]
+offset_left = 24.0
+offset_top = 15.0
+offset_right = 91.0
+offset_bottom = 25.0
+theme = ExtResource("5_b5q8e")
+text = "HP 120/250"
+
 [node name="Stats" type="HBoxContainer" parent="Hero1"]
-offset_left = -12.0
+offset_left = -11.0
 offset_top = 26.0
-offset_right = 100.0
+offset_right = 101.0
 offset_bottom = 38.0
 theme_override_constants/separation = 8
 alignment = 1
 
-[node name="Label" type="Label" parent="Hero1/Stats"]
+[node name="Atk" type="Label" parent="Hero1/Stats"]
 layout_mode = 2
 theme = ExtResource("5_b5q8e")
 text = "ATK 20"
 
-[node name="Label2" type="Label" parent="Hero1/Stats"]
+[node name="Def" type="Label" parent="Hero1/Stats"]
 layout_mode = 2
 theme = ExtResource("5_b5q8e")
 text = "DEF 15"
@@ -58,20 +66,28 @@ position = Vector2(20, -104)
 
 [node name="Hero" parent="Hero2" instance=ExtResource("6_dddle")]
 
+[node name="Hp" type="Label" parent="Hero2/Hero"]
+offset_left = 24.0
+offset_top = 15.0
+offset_right = 91.0
+offset_bottom = 25.0
+theme = ExtResource("5_b5q8e")
+text = "HP 120/250"
+
 [node name="Stats" type="HBoxContainer" parent="Hero2"]
-offset_left = -12.0
+offset_left = -11.0
 offset_top = 26.0
-offset_right = 100.0
+offset_right = 101.0
 offset_bottom = 38.0
 theme_override_constants/separation = 8
 alignment = 1
 
-[node name="Label" type="Label" parent="Hero2/Stats"]
+[node name="Atk" type="Label" parent="Hero2/Stats"]
 layout_mode = 2
 theme = ExtResource("5_b5q8e")
 text = "ATK 20"
 
-[node name="Label2" type="Label" parent="Hero2/Stats"]
+[node name="Def" type="Label" parent="Hero2/Stats"]
 layout_mode = 2
 theme = ExtResource("5_b5q8e")
 text = "DEF 15"
@@ -135,25 +151,25 @@ horizontal_alignment = 2
 
 [node name="RuneCountContainer" type="HBoxContainer" parent="."]
 offset_left = -116.0
-offset_top = 66.0
+offset_top = 90.0
 offset_right = 116.0
-offset_bottom = 90.0
+offset_bottom = 114.0
 theme_override_constants/separation = 1
 alignment = 1
 script = ExtResource("4_e6s56")
 
 [node name="Name" type="Label" parent="."]
-offset_left = -110.0
-offset_top = 92.0
-offset_right = 16.0
-offset_bottom = 102.0
+offset_left = -106.0
+offset_top = 58.0
+offset_right = 20.0
+offset_bottom = 68.0
 theme = ExtResource("5_b5q8e")
 text = "Humility • 1 pt • 0 / inf"
 
 [node name="Description" type="Label" parent="."]
-offset_left = -110.0
-offset_top = 102.0
-offset_right = -5.0
-offset_bottom = 112.0
+offset_left = -106.0
+offset_top = 69.0
+offset_right = -1.0
+offset_bottom = 79.0
 theme = ExtResource("8_1456k")
 text = "Unlock 1 angel rune."

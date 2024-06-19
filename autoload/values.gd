@@ -18,3 +18,12 @@ const POISON: int = 2
 
 const MAX_DEF: int = 99
 const MAX_MARKS: int = 9
+
+const PERK_TRAINING: int = 2
+const PERK_IMMUNITY: int = 2
+const PERK_LONGEVITY: int = 5
+const PERK_PATIENCE_NERF: int = 2
+const PERK_PATIENCE_BOOST: int = 5
+const PERK_GREED_NERF: int = 5
+const PERK_GREED_BOOST: int = 4
+const PERK_GLUTONNY: int = 5

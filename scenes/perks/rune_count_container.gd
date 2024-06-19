@@ -1,10 +1,6 @@
-extends HBoxContainer
+class_name RuneCountContainer extends HBoxContainer
 
 var rune_count = preload("res://scenes/perks/rune_count.tscn")
-
-
-func _ready():
-	reset()
 
 
 func reset():

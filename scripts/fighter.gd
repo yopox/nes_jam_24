@@ -236,9 +236,17 @@ func buy_perk(perk: Perks.Type) -> void:
 	var max_owned = Perks.quantities[perk]
 	if max_owned != -1 and perks.has(perk) and perks[perk] >= Perks.quantities[perk]:
 		return
+
+	if perk == Perks.Type.Patience and ATK < Values.PERK_PATIENCE_NERF + 1:
+		return
+	if perk == Perks.Type.Greed and \
+		(HP < Values.PERK_GREED_NERF + 1) or (MAX_HP < Values.PERK_GREED_NERF + 1):
+		return
+
 	if perk_points >= cost:
 		perk_points -= cost
 		if perks.has(perk):
 			perks[perk] += 1
 		else:
 			perks[perk] = 1
+		Perks.bought(perk, self)

@@ -20,6 +20,16 @@ var branch_sprites = {}
 @onready var p1pts: Label = $Tree/P1Pts
 @onready var p2pts: Label = $Tree/P2Pts
 
+@onready var p1hp: Label = $Hero1/Hero/Hp
+@onready var p1atk: Label = $Hero1/Stats/Atk
+@onready var p1def: Label = $Hero1/Stats/Def
+
+@onready var p2hp: Label = $Hero2/Hero/Hp
+@onready var p2atk: Label = $Hero2/Stats/Atk
+@onready var p2def: Label = $Hero2/Stats/Def
+
+@onready var runes: RuneCountContainer = $RuneCountContainer
+
 enum PerkState { Bought, Available, Locked }
 
 class Cursor:
@@ -66,6 +76,9 @@ func _ready():
 					branch_sprites["l-%s-%s-%s" % [i, j, k]] = link
 					update_link(i, j, k)
 					tree.add_child(link)
+	
+	update_stats()
+	runes.reset()
 
 
 func _process(delta):
@@ -186,3 +199,14 @@ func buy_perk() -> void:
 			update_perk(0 if cursor.p1 else 1, b, p)
 	p1pts.text = "%s %s" % [Team.hero1.perk_points, "pts" if Team.hero1.perk_points != 1 else "pt"]
 	p2pts.text = "%s %s" % [Team.hero2.perk_points, "pts" if Team.hero2.perk_points != 1 else "pt"]
+	update_stats()
+	runes.reset()
+
+
+func update_stats() -> void:
+	p1hp.text = "HP %s/%s" % [Team.hero1.HP, Team.hero1.MAX_HP]
+	p2hp.text = "HP %s/%s" % [Team.hero2.HP, Team.hero2.MAX_HP]
+	p1atk.text = "ATK %d" % [Team.hero1.ATK]
+	p2atk.text = "ATK %d" % [Team.hero2.ATK]
+	p1def.text = "DEF %d" % [Team.hero1.DEF]
+	p2def.text = "DEF %d" % [Team.hero2.DEF]

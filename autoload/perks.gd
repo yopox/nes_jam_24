@@ -136,3 +136,38 @@ func break_before(perk: Type) -> bool:
 			return true
 		_:
 			return false
+
+
+func bought(perk: Perks.Type, hero: Fighter) -> void:
+	match perk:
+		Perks.Type.Training:
+			hero.ATK += Values.PERK_TRAINING
+		Perks.Type.Longevity:
+			hero.MAX_HP += Values.PERK_LONGEVITY
+			hero.HP += Values.PERK_LONGEVITY
+		Perks.Type.Immunity:
+			hero.DEF += Values.PERK_IMMUNITY
+			
+		Perks.Type.Patience:
+			hero.ATK -= Values.PERK_PATIENCE_NERF
+			hero.HP += Values.PERK_PATIENCE_BOOST
+			hero.MAX_HP += Values.PERK_PATIENCE_BOOST
+		Perks.Type.Greed:
+			hero.HP -= Values.PERK_GREED_NERF
+			hero.MAX_HP -= Values.PERK_GREED_NERF
+			hero.ATK += Values.PERK_GREED_BOOST
+			
+		Perks.Type.Gluttony:
+			hero.ATK += Values.PERK_GLUTONNY
+			Team.runes.append(Rune.Type.Curse)
+		
+		Perks.Type.Humility:
+			Team.runes.append(Rune.Type.Angel)
+		Perks.Type.Pride:
+			Team.runes.append(Rune.Type.Demon)
+		Perks.Type.Musculation:
+			Team.runes.append(Rune.Type.Flex)
+		Perks.Type.Voltage:
+			Team.runes.append(Rune.Type.Thunder)
+		Perks.Type.Strategy:
+			Team.runes.append(Rune.Type.Loop)

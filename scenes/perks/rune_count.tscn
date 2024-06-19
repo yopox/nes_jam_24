@@ -22,9 +22,9 @@ empty = true
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 2
-offset_left = 15.0
-offset_top = 11.0
-offset_right = 27.0
-offset_bottom = 21.0
+offset_left = 16.0
+offset_top = 10.0
+offset_right = 28.0
+offset_bottom = 20.0
 theme = ExtResource("3_kdes3")
 text = "99"
