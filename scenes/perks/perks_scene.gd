@@ -22,6 +22,8 @@ class Cursor:
 	var branch: int = 0
 	var perk: int = 0
 	
+	func get_perk() -> Perks.Type: return Perks.codes["%s-%s" % [branch, perk]]
+	
 var cursor = Cursor.new()
 
 
@@ -74,19 +76,18 @@ func _process(delta):
 	if Input.is_action_just_pressed("right"):
 		right()
 		update_cursor()
+	if Input.is_action_just_pressed("a"):
+		buy_perk()
+		update_cursor()
 
 func down():
-	if cursor.branch < 2:
-		cursor.perk = posmod(cursor.perk + 1, 7)
-	else:
-		cursor.perk = posmod(cursor.perk + 1, 5)
+	var rows = 7 if cursor.branch < 2 else 5
+	cursor.perk = posmod(cursor.perk + 1, rows)
 
 
 func up():
-	if cursor.branch < 2:
-		cursor.perk = posmod(cursor.perk - 1, 7)
-	else:
-		cursor.perk = posmod(cursor.perk - 1, 5)
+	var rows = 7 if cursor.branch < 2 else 5
+	cursor.perk = posmod(cursor.perk - 1, 7)
 
 
 func right():
@@ -108,10 +109,8 @@ func left():
 
 
 func update_cursor():
-	if cursor.p1:
-		cursor_sprite.position = pos(0, cursor.branch, cursor.perk)
-	else:
-		cursor_sprite.position = pos(1, cursor.branch, cursor.perk)
+	var hero_i = 0 if cursor.p1 else 1
+	cursor_sprite.position = pos(hero_i, cursor.branch, cursor.perk)
 
 
 func pos(perso: int, branch: int, perk: int) -> Vector2:
@@ -119,7 +118,10 @@ func pos(perso: int, branch: int, perk: int) -> Vector2:
 
 
 func update_perk(i: int, j: int, k: int) -> void:
-	var node: Sprite2D = branch_sprites["p-%s-%s-%s" % [i, j, k]]
+	var code = "p-%s-%s-%s" % [i, j, k]
+	if not branch_sprites.has(code):
+		return
+	var node: Sprite2D = branch_sprites[code]
 	match get_perk_state(i, j, k):
 		PerkState.Bought:
 			node.texture.region.position.x = 12 * 0
@@ -127,30 +129,29 @@ func update_perk(i: int, j: int, k: int) -> void:
 			node.texture.region.position.x = 12 * 1
 		PerkState.Locked:
 			node.texture.region.position.x = 12 * 2
+	
+	if k > 0:
+		update_link(i, j, k)
 
 
 func get_perk_state(i: int, j: int, k: int) -> PerkState:
 	var perk_code = "%s-%s" % [j, k]	
-	var bought := false
-	if i == 0:
-		bought = Team.hero1.perks.find_key(perk_code) != null
-	else:
-		bought = Team.hero2.perks.find_key(perk_code) != null
-	if bought:
+	var perk = Perks.codes[perk_code]
+	var hero = Team.hero1 if cursor.p1 else Team.hero2
+	
+	if hero.perks.has(perk):
 		return PerkState.Bought
-	if not bought:
-		var available: bool
-		if i == 0:
-			available = Team.hero1.is_perk_available(perk_code)
-		else:
-			available = Team.hero2.is_perk_available(perk_code)
-		if available:
-			return PerkState.Available
-	return PerkState.Locked
+	elif hero.is_perk_available(perk_code):
+		return PerkState.Available
+	else:
+		return PerkState.Locked
 
 
 func update_link(i: int, j: int, k: int) -> void:
-	var node: Sprite2D = branch_sprites["l-%s-%s-%s" % [i, j, k]]
+	var code = "l-%s-%s-%s" % [i, j, k]
+	if not branch_sprites.has(code):
+		return 
+	var node: Sprite2D = branch_sprites[code]
 	match [get_perk_state(i, j, k-1), get_perk_state(i, j, k)]:
 		[PerkState.Bought, PerkState.Bought]:
 			node.texture.region.position.x = 4 * 0
@@ -168,3 +169,11 @@ func update_link(i: int, j: int, k: int) -> void:
 			node.texture.region.position.x = 4 * 4
 			if Perks.break_before(Perks.codes["%s-%s" % [j, k]]):
 				node.texture.region.position.x = 4 * 7
+
+
+func buy_perk() -> void:
+	var hero = Team.hero1 if cursor.p1 else Team.hero2
+	hero.buy_perk(cursor.get_perk())
+	for b in range(4):
+		for p in range(7):
+			update_perk(0 if cursor.p1 else 1, b, p)

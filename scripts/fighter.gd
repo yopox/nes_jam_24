@@ -4,15 +4,15 @@ enum Type { Fighter, Knight, Chou, Piou }
 
 enum Stat { HP, ATK, DEF }
 
-var weapon = null
-var perks = {}
-
 @export var type: Type
 
 @export var MAX_HP: int = 100
 var HP: int = MAX_HP
 @export var ATK: int = 10
 @export var DEF: int = 5
+
+@export var perk_points = 10
+var perks = {}
 
 @export var runes: Array[Rune.Type] = []
 @export var enemy_rune_nodes: Array[Rune] = []
@@ -230,3 +230,15 @@ func pick_enemy_action(action: Actions.Action, fight: Fight) -> void:
 
 func is_perk_available(code: String) -> bool:
 	return Perks.unlocked(Perks.codes[code], perks)
+
+
+func buy_perk(perk: Perks.Type) -> void:
+	var cost = Perks.costs[perk]
+	if not Perks.unlocked(perk, perks):
+		return
+	if perk_points >= cost:
+		perk_points -= cost
+		if perks.has(perk):
+			perks[perk] += 1
+		else:
+			perks[perk] = 1
