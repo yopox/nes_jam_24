@@ -92,7 +92,7 @@ func down():
 
 func up():
 	var rows = 7 if cursor.branch < 2 else 5
-	cursor.perk = posmod(cursor.perk - 1, 7)
+	cursor.perk = posmod(cursor.perk - 1, rows)
 
 
 func right():
