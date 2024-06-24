@@ -5,6 +5,10 @@ const all_runes = [
 	Rune.Type.Demon, Rune.Type.Angel, Rune.Type.Curse
 ]
 
+# GAME
+const WIDTH = 256
+const HEIGHT = 240
+
 # CONSTANTS
 const FLEX_BOOST: int = 50
 const THUNDER_NERF: int = 30
@@ -27,3 +31,9 @@ const PERK_PATIENCE_BOOST: int = 5
 const PERK_GREED_NERF: int = 5
 const PERK_GREED_BOOST: int = 4
 const PERK_GLUTONNY: int = 5
+
+# MAP GENERATION
+const MAP_WIDTH = 15
+const MAP_HEIGHT = 8
+const MAP_MAX_ROOMS = 80
+const MAP_MIN_ROOMS = 70

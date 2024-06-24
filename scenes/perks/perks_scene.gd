@@ -66,12 +66,7 @@ func _ready():
 				tree.add_child(border)
 			
 				if k > 0:
-					var link = Sprite2D.new()
-					var link_t = AtlasTexture.new()
-					link_t.atlas = load("res://assets/perk_connections.png")
-					link_t.region.size.x = 4
-					link_t.region.size.y = 4
-					link.texture = link_t
+					var link = NodeUtil.create_link()
 					link.position = pos(i, j, k) + Vector2(4, -4)
 					branch_sprites["l-%s-%s-%s" % [i, j, k]] = link
 					update_link(i, j, k)
@@ -204,8 +199,8 @@ func buy_perk() -> void:
 
 
 func update_stats() -> void:
-	p1hp.text = "HP %s/%s" % [Team.hero1.HP, Team.hero1.MAX_HP]
-	p2hp.text = "HP %s/%s" % [Team.hero2.HP, Team.hero2.MAX_HP]
+	p1hp.text = "HP %s / %s" % [Team.hero1.HP, Team.hero1.MAX_HP]
+	p2hp.text = "HP %s / %s" % [Team.hero2.HP, Team.hero2.MAX_HP]
 	p1atk.text = "ATK %d" % [Team.hero1.ATK]
 	p2atk.text = "ATK %d" % [Team.hero2.ATK]
 	p1def.text = "DEF %d" % [Team.hero1.DEF]

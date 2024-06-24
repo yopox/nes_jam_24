@@ -67,3 +67,7 @@ func max_by_hp(fighters: Array) -> Fighter:
 
 func wait(amount: float):
 	await get_tree().create_timer(amount).timeout
+
+
+func key(a: int, b: int, prefix: String = "") -> String:
+	return "%s%s-%s" % [a, b, prefix]

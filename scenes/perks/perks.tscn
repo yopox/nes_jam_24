@@ -40,8 +40,8 @@ offset_left = 24.0
 offset_top = 15.0
 offset_right = 91.0
 offset_bottom = 25.0
-theme = ExtResource("5_b5q8e")
-text = "HP 120/250"
+theme = ExtResource("8_1456k")
+text = "HP 120 / 250"
 
 [node name="Stats" type="HBoxContainer" parent="Hero1"]
 offset_left = -11.0
@@ -71,7 +71,7 @@ offset_left = 24.0
 offset_top = 15.0
 offset_right = 91.0
 offset_bottom = 25.0
-theme = ExtResource("5_b5q8e")
+theme = ExtResource("8_1456k")
 text = "HP 120/250"
 
 [node name="Stats" type="HBoxContainer" parent="Hero2"]
@@ -159,17 +159,19 @@ alignment = 1
 script = ExtResource("4_e6s56")
 
 [node name="Name" type="Label" parent="."]
-offset_left = -106.0
-offset_top = 58.0
-offset_right = 20.0
-offset_bottom = 68.0
+offset_left = -124.0
+offset_top = 60.0
+offset_right = 124.0
+offset_bottom = 70.0
 theme = ExtResource("5_b5q8e")
 text = "Humility • 1 pt • 0 / inf"
+horizontal_alignment = 1
 
 [node name="Description" type="Label" parent="."]
-offset_left = -106.0
-offset_top = 69.0
-offset_right = -1.0
-offset_bottom = 79.0
+offset_left = -124.0
+offset_top = 71.0
+offset_right = 124.0
+offset_bottom = 81.0
 theme = ExtResource("8_1456k")
 text = "Unlock 1 angel rune."
+horizontal_alignment = 1
