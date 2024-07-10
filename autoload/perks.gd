@@ -1,5 +1,7 @@
 extends Node
 
+enum State { Bought, Available, Locked }
+
 enum Type {
 	Humility, Diligence, Patience, Chastity, Charity, Temperance, Gratitude,
 	Pride, Lust, Gluttony, Greed, Envy, Sloth, Wrath,
@@ -171,3 +173,13 @@ func bought(perk: Perks.Type, hero: Fighter) -> void:
 			Team.runes.append(Rune.Type.Thunder)
 		Perks.Type.Strategy:
 			Team.runes.append(Rune.Type.Loop)
+
+
+func perk_to_border(state: State) -> Border.State:
+	match state:
+		State.Bought:
+			return Border.State.White
+		State.Available:
+			return Border.State.Gray
+		State.Locked, _:
+			return Border.State.Dark

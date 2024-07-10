@@ -1,0 +1,12 @@
+[gd_scene load_steps=4 format=3 uid="uid://c1ig5cwstughk"]
+
+[ext_resource type="Texture2D" uid="uid://c07qtyc1xfxsy" path="res://assets/perk_connections.png" id="1_atjf7"]
+[ext_resource type="Script" path="res://scenes/ui/link.gd" id="2_qpppa"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_udyje"]
+atlas = ExtResource("1_atjf7")
+region = Rect2(2.08165e-12, 2.08165e-12, 4, 4)
+
+[node name="Link" type="Sprite2D"]
+texture = SubResource("AtlasTexture_udyje")
+script = ExtResource("2_qpppa")

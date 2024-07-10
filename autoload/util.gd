@@ -69,5 +69,8 @@ func wait(amount: float):
 	await get_tree().create_timer(amount).timeout
 
 
-func key(a: int, b: int, prefix: String = "") -> String:
-	return "%s%s-%s" % [a, b, prefix]
+func key(parts: Array[int], prefix: String = "") -> String:
+	var k = prefix
+	for i in range(len(parts)):
+		k += ("-" if not prefix.is_empty() or i > 0 else "") + str(parts[i])
+	return k

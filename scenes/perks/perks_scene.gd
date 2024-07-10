@@ -13,6 +13,9 @@ extends Node2D
 var branches
 var branch_sprites = {}
 
+var border_scene = preload("res://scenes/ui/border.tscn")
+var link_scene = preload("res://scenes/ui/link.tscn")
+
 @export var cursor_sprite: Sprite2D
 @onready var tree: Node2D = $Tree
 @onready var name_label: Label = $Name
@@ -30,14 +33,13 @@ var branch_sprites = {}
 
 @onready var runes: RuneCountContainer = $RuneCountContainer
 
-enum PerkState { Bought, Available, Locked }
 
 class Cursor:
 	var p1: bool = true
 	var branch: int = 0
 	var perk: int = 0
 	
-	func get_perk() -> Perks.Type: return Perks.codes["%s-%s" % [branch, perk]]
+	func get_perk() -> Perks.Type: return Perks.codes[Util.key([branch, perk])]
 	
 var cursor = Cursor.new()
 
@@ -54,23 +56,18 @@ func _ready():
 			if j < 2:
 				perks = 7
 			for k in range(perks):
-				var border = Sprite2D.new()
-				var t = AtlasTexture.new()
-				t.atlas = load("res://assets/perk_borders.png")
-				t.region.size.x = 12
-				t.region.size.y = 12
-				border.texture = t
+				var border: Border = border_scene.instantiate()
 				border.position = pos(i, j, k) + Vector2(4, 4)
-				branch_sprites["p-%s-%s-%s" % [i, j, k]] = border
-				update_perk(i, j, k)
+				branch_sprites[Util.key([i, j, k], "p")] = border
 				tree.add_child(border)
+				update_perk(i, j, k)
 			
 				if k > 0:
-					var link = NodeUtil.create_link()
+					var link: Link = link_scene.instantiate()
 					link.position = pos(i, j, k) + Vector2(4, -4)
-					branch_sprites["l-%s-%s-%s" % [i, j, k]] = link
-					update_link(i, j, k)
+					branch_sprites[Util.key([i, j, k], "l")] = link
 					tree.add_child(link)
+					update_link(i, j, k)
 	
 	update_stats()
 	runes.reset()
@@ -133,57 +130,40 @@ func pos(perso: int, branch: int, perk: int) -> Vector2:
 
 
 func update_perk(i: int, j: int, k: int) -> void:
-	var code = "p-%s-%s-%s" % [i, j, k]
+	var code = Util.key([i, j, k], "p")
 	if not branch_sprites.has(code):
 		return
-	var node: Sprite2D = branch_sprites[code]
-	match get_perk_state(i, j, k):
-		PerkState.Bought:
-			node.texture.region.position.x = 12 * 0
-		PerkState.Available:
-			node.texture.region.position.x = 12 * 1
-		PerkState.Locked:
-			node.texture.region.position.x = 12 * 2
+	
+	var border: Border = branch_sprites[code]
+	border.update(Perks.perk_to_border(get_perk_state(i, j, k)))
 	
 	if k > 0:
 		update_link(i, j, k)
 
 
-func get_perk_state(i: int, j: int, k: int) -> PerkState:
-	var perk_code = "%s-%s" % [j, k]
+func get_perk_state(i: int, j: int, k: int) -> Perks.State:
+	var perk_code = Util.key([j, k])
 	var perk = Perks.codes[perk_code]
 	var hero = Team.hero1 if cursor.p1 else Team.hero2
 	
 	if hero.perks.has(perk):
-		return PerkState.Bought
+		return Perks.State.Bought
 	elif hero.is_perk_available(perk_code):
-		return PerkState.Available
+		return Perks.State.Available
 	else:
-		return PerkState.Locked
+		return Perks.State.Locked
 
 
 func update_link(i: int, j: int, k: int) -> void:
-	var code = "l-%s-%s-%s" % [i, j, k]
+	var code = Util.key([i, j, k], "l")
 	if not branch_sprites.has(code):
 		return 
-	var node: Sprite2D = branch_sprites[code]
-	match [get_perk_state(i, j, k-1), get_perk_state(i, j, k)]:
-		[PerkState.Bought, PerkState.Bought]:
-			node.texture.region.position.x = 4 * 0
-		[PerkState.Bought, PerkState.Available]:
-			node.texture.region.position.x = 4 * 1
-		[PerkState.Available, PerkState.Bought]:
-			node.texture.region.position.x = 4 * 2
-		[PerkState.Available, PerkState.Available]:
-			node.texture.region.position.x = 4 * 3
-		[PerkState.Bought, PerkState.Locked]:
-			node.texture.region.position.x = 4 * 5
-		[PerkState.Available, PerkState.Locked]:
-			node.texture.region.position.x = 4 * 6
-		[PerkState.Locked, PerkState.Locked]:
-			node.texture.region.position.x = 4 * 4
-			if Perks.break_before(Perks.codes["%s-%s" % [j, k]]):
-				node.texture.region.position.x = 4 * 7
+	var link: Link = branch_sprites[code]
+	link.update(
+		Perks.perk_to_border(get_perk_state(i, j, k-1)),
+		Perks.perk_to_border(get_perk_state(i, j, k)),
+		Perks.break_before(Perks.codes[Util.key([j, k])])
+	)
 
 
 func buy_perk() -> void:
