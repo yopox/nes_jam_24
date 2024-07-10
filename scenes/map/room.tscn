@@ -1,22 +1,19 @@
-[gd_scene load_steps=6 format=3 uid="uid://d1sth8p3jurca"]
+[gd_scene load_steps=5 format=3 uid="uid://d1sth8p3jurca"]
 
 [ext_resource type="Texture2D" uid="uid://b5bo5q2ve8gfa" path="res://assets/map_icons.png" id="1_gg3kn"]
 [ext_resource type="Script" path="res://scenes/map/room.gd" id="1_x5fvs"]
-[ext_resource type="Texture2D" uid="uid://bowjlmalv5tf1" path="res://assets/perk_borders.png" id="2_i6yxs"]
+[ext_resource type="PackedScene" uid="uid://crs3s5qs2jv2q" path="res://scenes/ui/border.tscn" id="3_n4uhv"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kccks"]
 atlas = ExtResource("1_gg3kn")
 region = Rect2(2.08165e-12, 2.08165e-12, 8, 8)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_afqhc"]
-atlas = ExtResource("2_i6yxs")
-region = Rect2(2.08165e-12, 2.08165e-12, 12, 12)
-
 [node name="Room" type="Node2D"]
 script = ExtResource("1_x5fvs")
 
 [node name="Sprite" type="Sprite2D" parent="."]
+visible = false
 texture = SubResource("AtlasTexture_kccks")
 
-[node name="Border" type="Sprite2D" parent="."]
-texture = SubResource("AtlasTexture_afqhc")
+[node name="Border" parent="." instance=ExtResource("3_n4uhv")]
+state = 0

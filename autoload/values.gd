@@ -33,7 +33,7 @@ const PERK_GREED_BOOST: int = 4
 const PERK_GLUTONNY: int = 5
 
 # MAP GENERATION
-const MAP_WIDTH = 15
-const MAP_HEIGHT = 8
-const MAP_MAX_ROOMS = 80
-const MAP_MIN_ROOMS = 70
+const MAP_WIDTH = 13
+const MAP_HEIGHT = 7
+const MAP_MAX_ROOMS = 70
+const MAP_MIN_ROOMS = 60

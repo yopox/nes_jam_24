@@ -8,6 +8,15 @@ func _init():
 	atlas = texture as AtlasTexture
 
 
+func update_weak(s1: Border.State, s2: Border.State) -> void:
+	if s1 == Border.State.Dark || s2 == Border.State.Dark:
+		update(Border.State.Dark, Border.State.Dark)
+	elif s1 == Border.State.Gray || s2 == Border.State.Gray:
+		update(Border.State.Gray, Border.State.Gray)
+	else:
+		update(Border.State.White, Border.State.White)
+
+
 func update(from: Border.State, to: Border.State, disconnected_dark: bool = false) -> void:
 	match [from, to]:
 		[Border.State.White, Border.State.White]:
