@@ -2,6 +2,8 @@ class_name Map extends Node2D
 
 @onready var graph: Node2D = $Graph
 
+var selected: Vector2i = Vector2i.ZERO: set = _set_selected
+
 var room_node = preload("res://scenes/map/room.tscn")
 var link_scene = preload("res://scenes/ui/link.tscn")
 
@@ -24,9 +26,8 @@ func _process(delta):
 		for c in graph.get_children():
 			c.free()
 		gen_map()
-
-
-
+	
+	move()	
 
 
 func gen_map() -> void:
@@ -37,6 +38,8 @@ func gen_map() -> void:
 			var key = Util.key([y, x])
 			if not layout.has(key): continue
 			var room: Room = room_node.instantiate()
+			room.x = x
+			room.y = y
 			room.position.x = x * 16 + dx
 			room.position.y = y * 16
 			room.right_door = layout.has(Util.key([y, x + 1]))
@@ -48,6 +51,8 @@ func gen_map() -> void:
 	starting.visited = true
 	starting.open = true
 	starting.update()
+	selected.x = starting.x
+	selected.y = starting.y
 	update_map()
 	update_links()
 
@@ -211,3 +216,47 @@ func is_layout_valid() -> bool:
 				layout.erase(key)
 
 	return layout.keys().size() > Values.MAP_MIN_ROOMS and layout.keys().size() < Values.MAP_MAX_ROOMS
+
+
+func _set_selected(value: Vector2i) -> void:
+	for m in map.values():
+		m.border.blink(false)
+		
+	var key = Util.key([value.y, value.x])
+	if map.has(key):
+		var room: Room = map[key]
+		room.border.blink(true)
+	
+	selected = value
+
+
+func move() -> void:
+	var check = false
+	var check_r: bool = true
+	var pos_check: Vector2i = selected
+	var dpos: Vector2i = Vector2i.ZERO
+	if Input.is_action_just_pressed("right"):
+		check = true
+		dpos.x = 1
+	elif Input.is_action_just_pressed("down"):
+		check = true
+		check_r = false
+		dpos.y = 1
+	elif Input.is_action_just_pressed("left"):
+		check = true
+		pos_check.x -= 1
+		dpos.x = -1
+	elif Input.is_action_just_pressed("up"):
+		check = true
+		pos_check.y -= 1
+		check_r = false
+		dpos.y = -1
+	
+	if not check: return
+	
+	var key = Util.key([pos_check.y, pos_check.x])
+	if not map.has(key): return
+
+	var room: Room = map[key]
+	if (check_r and room.right_door) or (not check_r and room.bottom_door):
+		selected = selected + dpos

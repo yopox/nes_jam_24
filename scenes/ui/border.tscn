@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://crs3s5qs2jv2q"]
+[gd_scene load_steps=9 format=3 uid="uid://crs3s5qs2jv2q"]
 
 [ext_resource type="Texture2D" uid="uid://bowjlmalv5tf1" path="res://assets/perk_borders.png" id="1_chfth"]
 [ext_resource type="Script" path="res://scenes/ui/border.gd" id="2_1f5k7"]
@@ -7,6 +7,46 @@
 atlas = ExtResource("1_chfth")
 region = Rect2(2.08165e-12, 2.08165e-12, 12, 12)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_gvv4f"]
+atlas = ExtResource("1_chfth")
+region = Rect2(36, 0, 12, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n0u7a"]
+atlas = ExtResource("1_chfth")
+region = Rect2(48, 0, 12, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bvu81"]
+atlas = ExtResource("1_chfth")
+region = Rect2(60, 0, 12, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dy61q"]
+atlas = ExtResource("1_chfth")
+region = Rect2(72, 0, 12, 12)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bvcs0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gvv4f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n0u7a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bvu81")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dy61q")
+}],
+"loop": true,
+"name": &"default",
+"speed": 6.0
+}]
+
 [node name="Border" type="Sprite2D"]
 texture = SubResource("AtlasTexture_757nu")
 script = ExtResource("2_1f5k7")
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_bvcs0")
+autoplay = "default"

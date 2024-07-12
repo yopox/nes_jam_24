@@ -2,6 +2,8 @@ class_name Room extends Node2D
 
 @onready var border: Border = $Border
 
+var x: int
+var y: int
 var right_door = true
 var bottom_door = true
 
