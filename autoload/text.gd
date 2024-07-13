@@ -92,3 +92,16 @@ func perk_name(perk: Perks.Type, hero: Fighter) -> String:
 
 func perk_description(perk: Perks.Type) -> String:
 	return perk_text(perk)[1]
+
+
+func room_name(type: Room.Type) -> String:
+	match type:
+		Room.Type.None: return ""
+		Room.Type.Fight: return "Fight"
+		Room.Type.Boss: return "Boss"
+		Room.Type.Inn: return "Inn"
+		Room.Type.Event: return "Unknown Event"
+		Room.Type.Shop: return "Shop"
+		_:
+			printerr("Missing Room Name")
+			return "Missing Room Name"

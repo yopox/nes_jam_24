@@ -1,6 +1,7 @@
 class_name Map extends Node2D
 
 @onready var graph: Node2D = $Graph
+@onready var room_name: Label = $RoomName
 
 var selected: Vector2i = Vector2i.ZERO: set = _set_selected
 
@@ -16,6 +17,7 @@ var dx = (Values.WIDTH - 16 * Values.MAP_WIDTH) / 2 + 8
 
 func _ready():
 	gen_map()
+	update_name()
 
 
 func _process(delta):
@@ -44,12 +46,14 @@ func gen_map() -> void:
 			room.position.y = y * 16
 			room.right_door = layout.has(Util.key([y, x + 1]))
 			room.bottom_door = layout.has(Util.key([y + 1, x]))
+			room.randomize()
 			graph.add_child(room)
 			map[key] = room
 	remove_links()
 	var starting: Room = map[map.keys().pick_random()]
 	starting.visited = true
 	starting.open = true
+	starting.type = Room.Type.None
 	starting.update()
 	selected.x = starting.x
 	selected.y = starting.y
@@ -260,3 +264,10 @@ func move() -> void:
 	var room: Room = map[key]
 	if (check_r and room.right_door) or (not check_r and room.bottom_door):
 		selected = selected + dpos
+	
+	update_name()
+
+
+func update_name() -> void:
+	var room: Room = map[Util.key([selected.y, selected.x])]
+	room_name.text = Text.room_name(room.type)
