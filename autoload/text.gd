@@ -100,8 +100,12 @@ func room_name(type: Room.Type) -> String:
 		Room.Type.Fight: return "Fight"
 		Room.Type.Boss: return "Boss"
 		Room.Type.Inn: return "Inn"
-		Room.Type.Event: return "Unknown Event"
+		Room.Type.Event: return "Event"
 		Room.Type.Shop: return "Shop"
 		_:
 			printerr("Missing Room Name")
 			return "Missing Room Name"
+
+
+func locked_room() -> String:
+	return "???"

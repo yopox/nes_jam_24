@@ -46,3 +46,9 @@ func update_sprite() -> void:
 		Type.Inn: atlas.region.position.x = 8 * 3
 		Type.Shop: atlas.region.position.x = 8 * 4
 		
+
+func open_room() -> bool:
+	open = true
+	if type == Room.Type.None:
+		visited = true
+	return true

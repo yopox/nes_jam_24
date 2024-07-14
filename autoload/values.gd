@@ -37,3 +37,12 @@ const MAP_WIDTH = 13
 const MAP_HEIGHT = 7
 const MAP_MAX_ROOMS = 70
 const MAP_MIN_ROOMS = 60
+
+const MAP_ROOMS = [
+	[Room.Type.Fight, 20],
+	[Room.Type.Boss, 3],
+	[Room.Type.Shop, 5],
+	[Room.Type.Inn, 5],
+	[Room.Type.Event, 20],
+	[Room.Type.None, 7]
+]

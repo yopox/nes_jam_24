@@ -50,11 +50,12 @@ func gen_map() -> void:
 			graph.add_child(room)
 			map[key] = room
 	remove_links()
-	var starting: Room = map[map.keys().pick_random()]
-	starting.visited = true
+	
+	assign_rooms()
+	
+	var starting: Room = map[Util.key([selected[1], selected[0]])]
 	starting.open = true
-	starting.type = Room.Type.None
-	starting.update()
+	starting.visited = true
 	selected.x = starting.x
 	selected.y = starting.y
 	update_map()
@@ -113,6 +114,8 @@ func remove_links() -> void:
 
 
 func update_map() -> void:
+	var changed = false
+	
 	for y in range(Values.MAP_HEIGHT):
 		for x in range(Values.MAP_WIDTH):
 			var key = Util.key([y, x])
@@ -123,24 +126,27 @@ func update_map() -> void:
 			if room.right_door and map.has(key_r):
 				var room_r: Room = map[key_r]
 				if room.visited and not room_r.open:
-					room_r.open = true
+					changed = room_r.open_room()
 				elif not room.open and room_r.visited:
-					room.open = true
+					changed = room.open_room()
 			
 			var key_b = Util.key([y + 1, x])
 			if room.bottom_door and map.has(key_b):
 				var room_b: Room = map[key_b]
 				if room.visited and not room_b.open:
-					room_b.open = true
+					changed = room_b.open_room()
 				elif not room.open and room_b.visited:
-					room.open = true
-		
+					changed = room.open_room()
+	
 	for y in range(Values.MAP_HEIGHT):
 		for x in range(Values.MAP_WIDTH):
 			var key = Util.key([y, x])
 			if not map.has(key): continue
 			var room: Room = map[key]
 			room.update()
+	
+	if changed:
+		update_map()
 
 
 func update_links() -> void:
@@ -167,6 +173,22 @@ func update_links() -> void:
 				var link: Link = doors[door_key]
 				var room_b: Room = map[key_b]
 				link.update_weak(room.border_state(), room_b.border_state())
+
+
+func assign_rooms() -> void:
+	# TODO: Ensure that boss rooms are far enough from the start
+	var room_types: Array = Util.expand_weights(Values.MAP_ROOMS)
+	room_types.shuffle()
+	var start_found = false
+	var room_keys = map.keys().duplicate()
+	room_keys.shuffle()
+	for key in room_keys:
+		if room_types.is_empty(): break
+		var room = map[key]
+		room.type = room_types.pop_back()
+		if not start_found and room.type == Room.Type.None:
+			selected = Vector2i(room.x, room.y)
+			start_found = true
 
 
 func init_door(key: String, x: int, y: int, vertical: bool) -> void:
@@ -270,4 +292,7 @@ func move() -> void:
 
 func update_name() -> void:
 	var room: Room = map[Util.key([selected.y, selected.x])]
-	room_name.text = Text.room_name(room.type)
+	if room.open:
+		room_name.text = Text.room_name(room.type)
+	else:
+		room_name.text = Text.locked_room()

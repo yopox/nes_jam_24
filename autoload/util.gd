@@ -74,3 +74,20 @@ func key(parts: Array[int], prefix: String = "") -> String:
 	for i in range(len(parts)):
 		k += ("-" if not prefix.is_empty() or i > 0 else "") + str(parts[i])
 	return k
+
+
+func get_weights(table) -> Array:
+	var w = 0
+	var weights = []
+	for i in range(len(table)):
+		w += table[i][1]
+		weights.append([table[i][0], w])
+	return weights
+
+
+func expand_weights(table) -> Array:
+	var e = []
+	for elem in table:
+		for i in range(elem[1]):
+			e.append(elem[0])
+	return e
