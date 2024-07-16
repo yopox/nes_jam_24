@@ -6,7 +6,7 @@ class_name Fight extends Node2D
 @onready var action_p1: ActionSelect = $Heroes/Action
 @onready var action_p2: ActionSelect = $Heroes/Action2
 
-@onready var arrow: Sprite2D = $ActionBox/Arrow
+@onready var action_box: ActionBox = $ActionBox
 
 @export var heroes: Array[Fighter] = []
 @onready var enemies: Container = $Enemies
@@ -45,17 +45,6 @@ func _ready():
 func _process(_delta):
 	if slots.state == Slots.State.Fight:
 		return
-	if Input.is_action_just_pressed("select"):
-		reset = !reset
-		if reset:
-			arrow.position.y = 75
-		else:
-			arrow.position.y = 85
-	if Input.is_action_just_pressed("start"):
-		if reset:
-			reset_runes()
-		else:
-			fight()
 
 
 func set_status(text: String) -> void:
@@ -202,3 +191,10 @@ func fight():
 		e.end_of_turn()
 
 	new_turn()
+
+
+func _on_action_box_selected(first: bool):
+	if slots.state == Slots.State.Fight: return
+	
+	if first: fight()
+	else: reset_runes()

@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://c70wd3t1n5nac" path="res://assets/cursor.png" id="3_hlny7"]
 [ext_resource type="Theme" uid="uid://d3g8e6rb5kn77" path="res://assets/theme.tres" id="4_10dxc"]
 [ext_resource type="PackedScene" uid="uid://d2gth7da186vm" path="res://scenes/fight/hero.tscn" id="6_ei2fy"]
-[ext_resource type="Theme" uid="uid://bi6jtu1txykgc" path="res://assets/theme_bold.tres" id="7_gr22p"]
+[ext_resource type="PackedScene" uid="uid://blvdtijax4w0a" path="res://scenes/ui/action_box.tscn" id="7_fd6cp"]
 [ext_resource type="PackedScene" uid="uid://dk62tipiy4qph" path="res://scenes/fight/action_select.tscn" id="7_wfhrf"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_2w2rk"]
@@ -20,9 +20,8 @@ region = Rect2(16, 2.08165e-12, 16, 16)
 atlas = ExtResource("3_hlny7")
 region = Rect2(2.08165e-12, 2.08165e-12, 16, 16)
 
-[node name="Fight" type="Node2D" node_paths=PackedStringArray("heroes")]
+[node name="Fight" type="Node2D"]
 script = ExtResource("1_cegb8")
-heroes = [NodePath("Heroes/Hero"), NodePath("Heroes/Hero 2")]
 
 [node name="Background" type="Sprite2D" parent="."]
 texture = ExtResource("1_q3qwi")
@@ -63,30 +62,13 @@ offset_bottom = -28.0
 size_flags_horizontal = 4
 alignment = 1
 
-[node name="ActionBox" type="Node" parent="."]
-
-[node name="Reset" type="Label" parent="ActionBox"]
-offset_left = 59.0
-offset_top = 69.0
-offset_right = 123.0
-offset_bottom = 79.0
-theme = ExtResource("7_gr22p")
-text = "RESET"
-horizontal_alignment = 1
-
-[node name="Fight" type="Label" parent="ActionBox"]
-offset_left = 59.0
-offset_top = 79.0
-offset_right = 123.0
-offset_bottom = 89.0
-theme = ExtResource("7_gr22p")
-text = "FIGHT"
-horizontal_alignment = 1
-
-[node name="Arrow" type="Sprite2D" parent="ActionBox"]
-position = Vector2(62, 85)
-rotation = 1.5708
-texture = SubResource("AtlasTexture_jedro")
+[node name="ActionBox" parent="." instance=ExtResource("7_fd6cp")]
+offset_left = 56.0
+offset_top = 64.0
+offset_right = 56.0
+offset_bottom = 64.0
+option_1 = "FIGHT"
+option_2 = "RESET"
 
 [node name="Status" type="Label" parent="."]
 offset_left = -110.0
@@ -98,3 +80,4 @@ text = "[Rune] rune description"
 
 [connection signal="action_changed" from="Heroes/Hero" to="Heroes/Action" method="_on_hero_action_changed"]
 [connection signal="action_changed" from="Heroes/Hero 2" to="Heroes/Action2" method="_on_hero_action_changed"]
+[connection signal="selected" from="ActionBox" to="." method="_on_action_box_selected"]

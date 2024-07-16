@@ -1,0 +1,53 @@
+[gd_scene load_steps=5 format=3 uid="uid://blvdtijax4w0a"]
+
+[ext_resource type="Theme" uid="uid://bi6jtu1txykgc" path="res://assets/theme_bold.tres" id="1_aeq5s"]
+[ext_resource type="Script" path="res://scenes/ui/action_box.gd" id="1_c4e6w"]
+[ext_resource type="Texture2D" uid="uid://c70wd3t1n5nac" path="res://assets/cursor.png" id="2_r4r6f"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jedro"]
+atlas = ExtResource("2_r4r6f")
+region = Rect2(2.08165e-12, 2.08165e-12, 16, 16)
+
+[node name="ActionBox" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_c4e6w")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+custom_minimum_size = Vector2(64, 32)
+layout_mode = 0
+offset_right = 64.0
+offset_bottom = 32.0
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+modulate = Color(0.0941176, 0.0862745, 0.109804, 1)
+custom_minimum_size = Vector2(62, 30)
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 63.0
+offset_bottom = 31.0
+
+[node name="Arrow" type="Sprite2D" parent="."]
+position = Vector2(5.00003, 11)
+rotation = 1.5708
+texture = SubResource("AtlasTexture_jedro")
+
+[node name="Opt1" type="Label" parent="."]
+layout_mode = 2
+offset_left = 16.0
+offset_top = 5.0
+offset_right = 80.0
+offset_bottom = 15.0
+size_flags_horizontal = 4
+theme = ExtResource("1_aeq5s")
+text = "OPT 1"
+
+[node name="Opt2" type="Label" parent="."]
+layout_mode = 2
+offset_left = 16.0
+offset_top = 15.0
+offset_right = 80.0
+offset_bottom = 25.0
+theme = ExtResource("1_aeq5s")
+text = "OPT 2"
