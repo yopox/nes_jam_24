@@ -3,6 +3,9 @@ class_name Map extends Node2D
 @onready var graph: Node2D = $Graph
 @onready var room_name: Label = $RoomName
 
+@onready var p1_stats: StatsText = $P1Stats
+@onready var p2_stats: StatsText = $P2Stats
+
 var selected: Vector2i = Vector2i.ZERO: set = _set_selected
 
 var room_node = preload("res://scenes/map/room.tscn")
@@ -16,6 +19,8 @@ var dx = (Values.WIDTH - 16 * Values.MAP_WIDTH) / 2 + 8
 
 
 func _ready():
+	p1_stats.set_fighter(Team.hero1)
+	p2_stats.set_fighter(Team.hero2)
 	gen_map()
 	update_name()
 
@@ -296,3 +301,12 @@ func update_name() -> void:
 		room_name.text = Text.room_name(room.type)
 	else:
 		room_name.text = Text.locked_room()
+
+
+func _on_action_box_selected(first):
+	if first:
+		# TODO: Open perks screen
+		pass
+	else:
+		# TODO: Proceed to event
+		pass

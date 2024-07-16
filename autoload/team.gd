@@ -7,6 +7,8 @@ var runes: Array[Rune.Type] = []
 var fight: Fight
 
 func _init():
+	hero1.name = "Arches"
+	hero2.name = "Ixous"
 	reset_runes()
 	
 

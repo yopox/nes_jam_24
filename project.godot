@@ -25,6 +25,7 @@ Actions="*res://autoload/actions.gd"
 Text="*res://autoload/text.gd"
 Perks="*res://autoload/perks.gd"
 NodeUtil="*res://autoload/node_util.gd"
+Progress="*res://autoload/progress.gd"
 
 [display]
 
