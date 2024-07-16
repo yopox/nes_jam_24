@@ -1,4 +1,5 @@
 .idea/
+plugins/
 
 # Project specific
 *.ttf
