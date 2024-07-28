@@ -1,5 +1,7 @@
 .idea/
 plugins/
+addons/
+.DS_Store
 
 # Project specific
 *.ttf
