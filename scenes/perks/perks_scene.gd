@@ -89,6 +89,9 @@ func _process(delta):
 	if Input.is_action_just_pressed("a"):
 		buy_perk()
 		update_cursor()
+	elif Input.is_action_just_pressed("b"):
+		var manager: Manager = get_parent().get_parent()
+		manager.change_scene(Manager.Scenes.Map)
 
 func down():
 	var rows = 7 if cursor.branch < 2 else 5

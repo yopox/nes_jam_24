@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="nes jam"
-run/main_scene="res://scenes/map/map.tscn"
+run/main_scene="res://scenes/manager.tscn"
 config/features=PackedStringArray("4.2", "Mobile")
 boot_splash/bg_color=Color(0.0941176, 0.0862745, 0.109804, 1)
 config/icon="res://icon.svg"
@@ -24,7 +24,6 @@ Values="*res://autoload/values.gd"
 Actions="*res://autoload/actions.gd"
 Text="*res://autoload/text.gd"
 Perks="*res://autoload/perks.gd"
-NodeUtil="*res://autoload/node_util.gd"
 Progress="*res://autoload/progress.gd"
 
 [display]
@@ -33,6 +32,10 @@ window/size/viewport_width=1280
 window/size/viewport_height=1200
 window/stretch/mode="viewport"
 window/stretch/scale=5.0
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg")
 
 [input]
 

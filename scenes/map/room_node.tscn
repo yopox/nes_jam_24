@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://d1sth8p3jurca"]
 
 [ext_resource type="Texture2D" uid="uid://b5bo5q2ve8gfa" path="res://assets/map_icons.png" id="1_gg3kn"]
-[ext_resource type="Script" path="res://scenes/map/room.gd" id="1_x5fvs"]
+[ext_resource type="Script" path="res://scenes/map/room_node.gd" id="1_x5fvs"]
 [ext_resource type="PackedScene" uid="uid://crs3s5qs2jv2q" path="res://scenes/ui/border.tscn" id="3_n4uhv"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kccks"]
