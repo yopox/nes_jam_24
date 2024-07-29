@@ -1,33 +1,30 @@
-[gd_scene load_steps=7 format=3 uid="uid://d4efro5yhph2t"]
+[gd_scene load_steps=7 format=3 uid="uid://dt1otjpeioy1c"]
 
-[ext_resource type="Script" path="res://scenes/map/map_scene.gd" id="1_0a8v0"]
-[ext_resource type="Texture2D" uid="uid://driyfl1d7vfoq" path="res://assets/map_bg.png" id="2_1w7hg"]
-[ext_resource type="Theme" uid="uid://bi6jtu1txykgc" path="res://assets/theme_bold.tres" id="3_qdhr1"]
-[ext_resource type="PackedScene" uid="uid://blvdtijax4w0a" path="res://scenes/ui/action_box.tscn" id="4_q73bs"]
-[ext_resource type="PackedScene" uid="uid://b42pqqtlgr0t1" path="res://scenes/ui/stats_text.tscn" id="5_ufjar"]
-[ext_resource type="PackedScene" uid="uid://bd25jnx7h4qei" path="res://scenes/ui/gold_count.tscn" id="6_bwy2r"]
+[ext_resource type="Script" path="res://scenes/map/map_scene.gd" id="1_57qnk"]
+[ext_resource type="Texture2D" uid="uid://driyfl1d7vfoq" path="res://assets/map_bg.png" id="1_p7gi5"]
+[ext_resource type="PackedScene" uid="uid://bd25jnx7h4qei" path="res://scenes/ui/gold_count.tscn" id="2_ytvva"]
+[ext_resource type="PackedScene" uid="uid://b42pqqtlgr0t1" path="res://scenes/ui/stats_text.tscn" id="3_g1qxy"]
+[ext_resource type="PackedScene" uid="uid://blvdtijax4w0a" path="res://scenes/ui/action_box.tscn" id="5_uw2gu"]
+[ext_resource type="Theme" uid="uid://bi6jtu1txykgc" path="res://assets/theme_bold.tres" id="6_3dbfc"]
 
-[node name="Map" type="Node2D"]
-script = ExtResource("1_0a8v0")
+[node name="MapScene" type="Node2D"]
+script = ExtResource("1_57qnk")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_1w7hg")
-
-[node name="Graph" type="Node2D" parent="."]
-position = Vector2(-128, -56)
+texture = ExtResource("1_p7gi5")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
-[node name="RoomName" type="Label" parent="."]
-offset_left = -124.0
-offset_top = 60.0
-offset_right = 124.0
-offset_bottom = 70.0
-theme = ExtResource("3_qdhr1")
-text = "Fight"
-horizontal_alignment = 1
+[node name="GoldCount" parent="." instance=ExtResource("2_ytvva")]
+position = Vector2(104, -104)
 
-[node name="ActionBox" parent="." instance=ExtResource("4_q73bs")]
+[node name="P1Stats" parent="." instance=ExtResource("3_g1qxy")]
+position = Vector2(-104, -104)
+
+[node name="P2Stats" parent="." instance=ExtResource("3_g1qxy")]
+position = Vector2(-36, -104)
+
+[node name="ActionBox" parent="." instance=ExtResource("5_uw2gu")]
 offset_left = 56.0
 offset_top = 80.0
 offset_right = 56.0
@@ -35,13 +32,15 @@ offset_bottom = 80.0
 option_1 = "GO!"
 option_2 = "PERKS"
 
-[node name="P1Stats" parent="." instance=ExtResource("5_ufjar")]
-position = Vector2(-112, -104)
+[node name="Graph" type="Node2D" parent="."]
+position = Vector2(-128, -56)
 
-[node name="P2Stats" parent="." instance=ExtResource("5_ufjar")]
-position = Vector2(-48, -104)
-
-[node name="GoldCount" parent="." instance=ExtResource("6_bwy2r")]
-position = Vector2(112, -104)
+[node name="RoomName" type="Label" parent="."]
+offset_left = -128.0
+offset_top = 56.0
+offset_right = 128.0
+offset_bottom = 79.0
+theme = ExtResource("6_3dbfc")
+horizontal_alignment = 1
 
 [connection signal="selected" from="ActionBox" to="." method="_on_action_box_selected"]
