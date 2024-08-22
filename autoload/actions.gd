@@ -78,7 +78,7 @@ func resolve_action(action: Action) -> void:
 				continue
 			match action.type:
 				Type.Atk:
-					var atk = fighter.ATK * action.power
+					var atk = fighter.stats.ATK * action.power
 					# Demon: consume marks
 					var demon = fighter.get_status_value(Status.Type.Demon)
 					if action.demon > 0:
@@ -93,7 +93,7 @@ func resolve_action(action: Action) -> void:
 					if damage > 0:
 						await target.damage(damage)
 				Type.Def:
-					var def = action.fighter.DEF * action.power
+					var def = action.fighter.stats.DEF * action.power
 					# Demon: add a mark
 					if action.demon > 0:
 						fighter.add_mark(Status.Type.Demon, action.demon)

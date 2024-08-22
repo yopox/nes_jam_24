@@ -13,7 +13,7 @@
 atlas = ExtResource("3_6s0v6")
 region = Rect2(2.08165e-12, 2.08165e-12, 16, 16)
 
-[node name="Competence" type="Node2D" node_paths=PackedStringArray("p1_angel", "p1_demon", "p1_atk", "p1_def", "p2_angel", "p2_demon", "p2_atk", "p2_def", "cursor_sprite")]
+[node name="PerksTree" type="Node2D" node_paths=PackedStringArray("p1_angel", "p1_demon", "p1_atk", "p1_def", "p2_angel", "p2_demon", "p2_atk", "p2_def", "cursor_sprite")]
 script = ExtResource("1_m7c50")
 p1_angel = NodePath("Tree/P1Angel")
 p1_demon = NodePath("Tree/P1Demon")

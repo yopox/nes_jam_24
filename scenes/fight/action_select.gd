@@ -1,3 +1,4 @@
+@icon("res://assets/icons/node_2D/icon_hand.png")
 class_name ActionSelect extends Node2D
 
 @export var p1 := true

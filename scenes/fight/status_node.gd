@@ -1,3 +1,4 @@
+@icon("res://assets/icons/control/icon_shield.png")
 class_name StatusNode extends Node
 
 @onready var letter_label: Label = $Letter

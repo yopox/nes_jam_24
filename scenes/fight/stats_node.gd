@@ -1,10 +1,7 @@
-class_name Stats extends Node2D
+@icon("res://assets/icons/node_2D/icon_text_panel.png")
+class_name StatsNode extends Node2D
 
-@export var character_name: String:
-	set(value):
-		character_name = value
-		if is_node_ready():
-			name_label.text = character_name
+var character_name: String
 
 @onready var name_label: Label = $Name
 @onready var hp_bar: HPBar = $HPBar
@@ -13,12 +10,14 @@ class_name Stats extends Node2D
 var status_scene: PackedScene = preload("res://scenes/fight/status_node.tscn")
 
 
-func _ready():
-	character_name = character_name
+func reset(fighter: Fighter) -> void:
+	name_label.text = fighter.name
+	stats_changed(fighter.stats)
+	update_status(fighter)
 
 
-func stats_changed(fighter: Fighter) -> void:
-	hp_bar.update(fighter.HP, fighter.MAX_HP)
+func stats_changed(stats: Stats) -> void:
+	hp_bar.update(stats.HP, stats.MAX_HP)
 
 
 func update_status(fighter: Fighter) -> void:

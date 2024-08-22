@@ -20,8 +20,9 @@ region = Rect2(16, 2.08165e-12, 16, 16)
 atlas = ExtResource("3_hlny7")
 region = Rect2(2.08165e-12, 2.08165e-12, 16, 16)
 
-[node name="Fight" type="Node2D"]
+[node name="Fight" type="Node2D" node_paths=PackedStringArray("heroes")]
 script = ExtResource("1_cegb8")
+heroes = [NodePath("Heroes/Hero"), NodePath("Heroes/Hero 2")]
 
 [node name="Background" type="Sprite2D" parent="."]
 texture = ExtResource("1_q3qwi")

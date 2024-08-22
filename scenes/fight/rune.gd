@@ -1,3 +1,4 @@
+@icon("res://assets/icons/node_2D/icon_rune.png")
 class_name Rune extends Node2D
 
 enum Type { Blank, Flex, Poison, Thunder, Demon, Angel, Curse, Loop }

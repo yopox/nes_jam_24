@@ -28,15 +28,19 @@ func get_unique_id() -> int:
 func distinct(n: int, from: int, to: int) -> Array:
 	var drafted = []
 	
-	if to - from < n:
-		printerr("Can't generate distinct numbers: too short interval")
+	if to < from:
 		return []
 	
-	while len(drafted) < n:
-		var i = -1
-		while i < 0 or i in drafted:
-			i = randi_range(from, to)
-		drafted.append(i)
+	if to - from < n:
+		for i in range(from, to + 1):
+			drafted.append(i)
+	
+	else:
+		while len(drafted) < n:
+			var i = -1
+			while i < 0 or i in drafted:
+				i = randi_range(from, to)
+			drafted.append(i)
 	
 	return drafted
 
@@ -47,7 +51,7 @@ func min_by_hp(fighters: Array) -> Fighter:
 	
 	var min_fighter = fighters[0] as Fighter
 	for fighter: Fighter in fighters:
-		if fighter.HP < min_fighter.HP:
+		if fighter.stats.HP < min_fighter.stats.HP:
 			min_fighter = fighter
 	
 	return min_fighter
@@ -59,7 +63,7 @@ func max_by_hp(fighters: Array) -> Fighter:
 	
 	var max_fighter = fighters[0] as Fighter
 	for fighter: Fighter in fighters:
-		if fighter.HP > max_fighter.HP:
+		if fighter.stats.HP > max_fighter.stats.HP:
 			max_fighter = fighter
 	
 	return max_fighter

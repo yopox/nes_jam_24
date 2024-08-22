@@ -1,10 +1,10 @@
 [gd_scene load_steps=4 format=3 uid="uid://dgfepanw2h6us"]
 
-[ext_resource type="Script" path="res://scenes/fight/stats.gd" id="1_mu5om"]
+[ext_resource type="Script" path="res://scenes/fight/stats_node.gd" id="1_mu5om"]
 [ext_resource type="Theme" uid="uid://d3g8e6rb5kn77" path="res://assets/theme.tres" id="2_ipvrs"]
 [ext_resource type="Script" path="res://scenes/fight/HPBar.gd" id="3_7wem8"]
 
-[node name="Stats" type="Node2D"]
+[node name="StatsNode" type="Node2D"]
 script = ExtResource("1_mu5om")
 
 [node name="Name" type="Label" parent="."]

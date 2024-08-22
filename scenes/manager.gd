@@ -1,3 +1,4 @@
+@icon("res://assets/icons/node_2D/icon_crate.png")
 class_name Manager extends Node2D
 
 @onready var current = $Current
@@ -18,7 +19,9 @@ func change_scene(scene: Scenes):
 	var scene_node: Node
 	match scene:
 		Scenes.Map: scene_node = map.instantiate()
-		Scenes.Fight: scene_node = fight.instantiate()
+		Scenes.Fight:
+			scene_node = fight.instantiate()
+			# TODO: pass args from the room
 		Scenes.Perks: scene_node = perks.instantiate()
 	
 	for c in current.get_children():

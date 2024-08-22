@@ -1,3 +1,4 @@
+@icon("res://assets/icons/node_2D/icon_sword.png")
 class_name Fight extends Node2D
 
 @onready var status: Label = $Status
@@ -8,35 +9,36 @@ class_name Fight extends Node2D
 
 @onready var action_box: ActionBox = $ActionBox
 
-@export var heroes: Array[Fighter] = []
 @onready var enemies: Container = $Enemies
+
+@export var heroes: Array[Hero]
 
 var turn = 0
 
 var reset := false
 
-
-func _enter_tree():
-	Team.fight = self
+var enemy_node = preload("res://scenes/enemies/enemy.tscn")
 
 
 func _ready():
+	Team.fight = self
+	
 	set_status(slots.selected_rune().description())
 	
-	var chou = load("res://scenes/enemies/Chou.tscn")
-	var e1: Fighter = chou.instantiate()
+	var e1: Enemy = enemy_node.instantiate()
 	enemies.add_child(e1)
+	e1.set_enemy(Fighter.Type.Chou, 1)
 	
-	var piou = load("res://scenes/enemies/Piou.tscn")
-	var e2: Fighter = piou.instantiate()
+	var e2: Enemy = enemy_node.instantiate()
 	enemies.add_child(e2)
+	e2.set_enemy(Fighter.Type.Piou, 1)
 	
-	for e in enemies.get_children():
-		e.reset()
+	heroes[0].fighter = Progress.hero1
+	heroes[1].fighter = Progress.hero2
+	
 	for h in heroes:
-		h.reset()
-		h.intent = Actions.Type.Atk
-		h.target = get_first_alive_enemy().id
+		h.fighter.intent = Actions.Type.Atk
+		h.fighter.target = get_first_alive_enemy().id
 		h.update_gui()
 	
 	new_turn()
@@ -62,11 +64,11 @@ func update_state(state: Slots.State) -> void:
 
 func get_fighter_by_id(id: int) -> Fighter:
 	for f in heroes:
-		if f.id == id:
-			return f
+		if f.fighter.id == id:
+			return f.fighter
 	for e in enemies.get_children():
-		if e.id == id:
-			return e
+		if e.fighter.id == id:
+			return e.fighter
 	printerr("Can't find fighter!")
 	return null
 
@@ -75,36 +77,40 @@ func get_next_target(target: int) -> int:
 	var last = null
 	for f in heroes:
 		if last != null and last.id == target:
-			return f.id
-		last = f
+			return f.fighter.id
+		last = f.fighter
 	for e in enemies.get_children():
 		if last.id == target:
-			return e.id
-		last = e
-	return heroes[0].id
+			return e.fighter.id
+		last = e.fighter
+	return heroes[0].fighter.id
 
 
 func get_first_alive_enemy() -> Fighter:
-	for e: Fighter in enemies.get_children():
-		if e.is_alive():
-			return e
+	for e: Enemy in enemies.get_children():
+		if e.fighter.is_alive():
+			return e.fighter
 	return null
 
 
 func get_first_alive_ally() -> Fighter:
-	for e: Fighter in heroes:
-		if e.is_alive():
-			return e
+	for e: Hero in heroes:
+		if e.fighter.is_alive():
+			return e.fighter
 	return null
 
 
 func get_allies() -> Array:
-	return heroes.filter(func(f: Fighter): return f.is_alive())
+	return heroes\
+		.filter(func(h: Hero): return h.fighter.is_alive())\
+		.map(func(h: Hero): return h.fighter)
 
 
 func get_enemies() -> Array:
 	var e = enemies.get_children()
-	return e.filter(func(f: Fighter): return f.is_alive())
+	return e\
+		.filter(func(e: Enemy): return e.fighter.is_alive())\
+		.map(func(e: Enemy): return e.fighter)
 
 
 func get_random_ally() -> Fighter: return get_allies().pick_random()
@@ -139,13 +145,13 @@ func reset_runes():
 func new_turn() -> void:
 	turn += 1
 
-	for e: Fighter in enemies.get_children():
+	for e: Enemy in enemies.get_children():
 		e.clear_enemy_runes()
 
 	await Util.wait(0.25)
 
-	for e: Fighter in enemies.get_children():
-		if e.is_alive():
+	for e: Enemy in enemies.get_children():
+		if e.fighter.is_alive():
 			e.draft_enemy_runes()
 
 	slots.reset_cursor()
@@ -156,21 +162,22 @@ func fight():
 	slots.state = Slots.State.Fight
 	var actions: Array[Actions.Action] = []
 	
-	var p1_action = heroes[0].action()
+	var p1_action = heroes[0].fighter.action(self)
 	for rune in slots.runes["p1"]:
 		if not rune.empty:
 			Actions.apply_rune(p1_action, rune.type)
 	actions.append(p1_action)
 	
-	var p2_action = heroes[1].action()
+	var p2_action = heroes[1].fighter.action(self)
 	for rune in slots.runes["p2"]:
 		if not rune.empty:
 			Actions.apply_rune(p2_action, rune.type)
 	actions.append(p2_action)
 	
-	for enemy: Fighter in enemies.get_children():
-		if enemy.is_alive():
-			var e_action = enemy.action()
+	for enemy: Enemy in enemies.get_children():
+		var e_fighter = enemy.fighter
+		if e_fighter.is_alive():
+			var e_action = e_fighter.action(self)
 			for rune: Rune in enemy.enemy_rune_nodes:
 				Actions.apply_rune(e_action, rune.type)
 			actions.append(e_action)

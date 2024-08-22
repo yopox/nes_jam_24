@@ -136,3 +136,7 @@ func assign_rooms() -> Vector2i:
 		if start_found == null and room.type == Room.Type.None:
 			start_found = Vector2i(room.x, room.y)
 	return start_found
+
+
+func selected_room() -> Room:
+	return rooms[Util.key([selected.y, selected.x])]

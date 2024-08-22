@@ -1,3 +1,4 @@
+@icon("res://assets/icons/control/icon_lever.png")
 class_name ActionBox extends Control
 
 @export var option_1: String = "OPT 1"

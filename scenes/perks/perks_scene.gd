@@ -1,3 +1,4 @@
+@icon("res://assets/icons/node_2D/icon_ship.png")
 extends Node2D
 
 @export var p1_angel: Node2D
@@ -23,10 +24,12 @@ var link_scene = preload("res://scenes/ui/link.tscn")
 @onready var p1pts: Label = $Tree/P1Pts
 @onready var p2pts: Label = $Tree/P2Pts
 
+@onready var hero1 = $Hero1/Hero
 @onready var p1hp: Label = $Hero1/Hero/Hp
 @onready var p1atk: Label = $Hero1/Stats/Atk
 @onready var p1def: Label = $Hero1/Stats/Def
 
+@onready var hero2 = $Hero2/Hero
 @onready var p2hp: Label = $Hero2/Hero/Hp
 @onready var p2atk: Label = $Hero2/Stats/Atk
 @onready var p2def: Label = $Hero2/Stats/Def
@@ -45,6 +48,9 @@ var cursor = Cursor.new()
 
 
 func _ready():
+	hero1.fighter = Progress.hero1
+	hero2.fighter = Progress.hero2
+	
 	branches = [
 		[p1_angel, p1_demon, p1_atk, p1_def],
 		[p2_angel, p2_demon, p2_atk, p2_def],
@@ -124,7 +130,7 @@ func left():
 func update_cursor():
 	var hero_i = 0 if cursor.p1 else 1
 	cursor_sprite.position = pos(hero_i, cursor.branch, cursor.perk)
-	name_label.text = Text.perk_name(cursor.get_perk(), Team.hero1 if cursor.p1 else Team.hero2)
+	name_label.text = Text.perk_name(cursor.get_perk(), Progress.hero1 if cursor.p1 else Progress.hero2)
 	desc_label.text = Text.perk_description(cursor.get_perk())
 
 
@@ -147,11 +153,11 @@ func update_perk(i: int, j: int, k: int) -> void:
 func get_perk_state(i: int, j: int, k: int) -> Perks.State:
 	var perk_code = Util.key([j, k])
 	var perk = Perks.codes[perk_code]
-	var hero = Team.hero1 if cursor.p1 else Team.hero2
+	var hero = Progress.hero1 if cursor.p1 else Progress.hero2
 	
-	if hero.perks.has(perk):
+	if hero.stats.perks.has(perk):
 		return Perks.State.Bought
-	elif hero.is_perk_available(perk_code):
+	elif hero.stats.is_perk_available(perk_code):
 		return Perks.State.Available
 	else:
 		return Perks.State.Locked
@@ -170,21 +176,21 @@ func update_link(i: int, j: int, k: int) -> void:
 
 
 func buy_perk() -> void:
-	var hero = Team.hero1 if cursor.p1 else Team.hero2
-	hero.buy_perk(cursor.get_perk())
+	var hero = Progress.hero1 if cursor.p1 else Progress.hero2
+	hero.stats.buy_perk(cursor.get_perk())
 	for b in range(4):
 		for p in range(7):
 			update_perk(0 if cursor.p1 else 1, b, p)
-	p1pts.text = "%s %s" % [Team.hero1.perk_points, "pts" if Team.hero1.perk_points != 1 else "pt"]
-	p2pts.text = "%s %s" % [Team.hero2.perk_points, "pts" if Team.hero2.perk_points != 1 else "pt"]
+	p1pts.text = "%s %s" % [Progress.hero1.stats.perk_points, "pts" if Progress.hero1.stats.perk_points != 1 else "pt"]
+	p2pts.text = "%s %s" % [Progress.hero2.stats.perk_points, "pts" if Progress.hero2.stats.perk_points != 1 else "pt"]
 	update_stats()
 	runes.reset()
 
 
 func update_stats() -> void:
-	p1hp.text = "HP %s / %s" % [Team.hero1.HP, Team.hero1.MAX_HP]
-	p2hp.text = "HP %s / %s" % [Team.hero2.HP, Team.hero2.MAX_HP]
-	p1atk.text = "ATK %d" % [Team.hero1.ATK]
-	p2atk.text = "ATK %d" % [Team.hero2.ATK]
-	p1def.text = "DEF %d" % [Team.hero1.DEF]
-	p2def.text = "DEF %d" % [Team.hero2.DEF]
+	p1hp.text = "HP %s / %s" % [Progress.hero1.stats.HP, Progress.hero1.stats.MAX_HP]
+	p2hp.text = "HP %s / %s" % [Progress.hero2.stats.HP, Progress.hero2.stats.MAX_HP]
+	p1atk.text = "ATK %d" % [Progress.hero1.stats.ATK]
+	p2atk.text = "ATK %d" % [Progress.hero2.stats.ATK]
+	p1def.text = "DEF %d" % [Progress.hero1.stats.DEF]
+	p2def.text = "DEF %d" % [Progress.hero2.stats.DEF]

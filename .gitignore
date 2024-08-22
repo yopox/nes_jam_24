@@ -1,6 +1,7 @@
 .idea/
 plugins/
 addons/
+assets/icons/
 .DS_Store
 
 # Project specific

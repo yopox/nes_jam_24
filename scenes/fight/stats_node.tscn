@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://cgu36n34ubhnu"]
 
-[ext_resource type="Script" path="res://scenes/fight/stats.gd" id="1_0s3rg"]
+[ext_resource type="Script" path="res://scenes/fight/stats_node.gd" id="1_0s3rg"]
 [ext_resource type="Theme" uid="uid://d3g8e6rb5kn77" path="res://assets/theme.tres" id="2_ppqn2"]
 [ext_resource type="Script" path="res://scenes/fight/HPBar.gd" id="3_v8wn2"]
 

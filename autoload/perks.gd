@@ -140,27 +140,27 @@ func break_before(perk: Type) -> bool:
 			return false
 
 
-func bought(perk: Perks.Type, hero: Fighter) -> void:
+func bought(perk: Perks.Type, stats: Stats) -> void:
 	match perk:
 		Perks.Type.Training:
-			hero.ATK += Values.PERK_TRAINING
+			stats.ATK += Values.PERK_TRAINING
 		Perks.Type.Longevity:
-			hero.MAX_HP += Values.PERK_LONGEVITY
-			hero.HP += Values.PERK_LONGEVITY
+			stats.MAX_HP += Values.PERK_LONGEVITY
+			stats.HP += Values.PERK_LONGEVITY
 		Perks.Type.Immunity:
-			hero.DEF += Values.PERK_IMMUNITY
+			stats.DEF += Values.PERK_IMMUNITY
 			
 		Perks.Type.Patience:
-			hero.ATK -= Values.PERK_PATIENCE_NERF
-			hero.HP += Values.PERK_PATIENCE_BOOST
-			hero.MAX_HP += Values.PERK_PATIENCE_BOOST
+			stats.ATK -= Values.PERK_PATIENCE_NERF
+			stats.HP += Values.PERK_PATIENCE_BOOST
+			stats.MAX_HP += Values.PERK_PATIENCE_BOOST
 		Perks.Type.Greed:
-			hero.HP -= Values.PERK_GREED_NERF
-			hero.MAX_HP -= Values.PERK_GREED_NERF
-			hero.ATK += Values.PERK_GREED_BOOST
+			stats.MAX_HP -= Values.PERK_GREED_NERF
+			stats.HP = max(1, stats.HP - Values.PERK_GREED_NERF)
+			stats.ATK += Values.PERK_GREED_BOOST
 			
 		Perks.Type.Gluttony:
-			hero.ATK += Values.PERK_GLUTONNY
+			stats.ATK += Values.PERK_GLUTONNY
 			Team.runes.append(Rune.Type.Curse)
 		
 		Perks.Type.Humility:

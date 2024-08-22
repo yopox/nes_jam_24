@@ -1,15 +1,15 @@
 [gd_scene load_steps=5 format=3 uid="uid://d2gth7da186vm"]
 
-[ext_resource type="PackedScene" uid="uid://cgu36n34ubhnu" path="res://scenes/fight/stats.tscn" id="1_yu0ps"]
+[ext_resource type="Script" path="res://scenes/fight/hero.gd" id="1_ubxob"]
+[ext_resource type="PackedScene" uid="uid://cgu36n34ubhnu" path="res://scenes/fight/stats_node.tscn" id="1_yu0ps"]
 [ext_resource type="Texture2D" uid="uid://dklokxev6wvhi" path="res://assets/hero.png" id="2_65mlx"]
-[ext_resource type="Script" path="res://scripts/fighter.gd" id="3_p68cv"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8tgpj"]
 atlas = ExtResource("2_65mlx")
 region = Rect2(2.08165e-12, 2.08165e-12, 16, 24)
 
 [node name="Hero" type="Node2D"]
-script = ExtResource("3_p68cv")
+script = ExtResource("1_ubxob")
 
 [node name="Stats" parent="." instance=ExtResource("1_yu0ps")]
 position = Vector2(24, -2)

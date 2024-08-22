@@ -1,3 +1,4 @@
+@icon("res://assets/icons/node_2D/icon_event.png")
 class_name RoomNode extends Node2D
 
 @onready var border: Border = $Border
@@ -18,8 +19,8 @@ func update():
 
 
 func border_state() -> Border.State:
-	if room.visited: return Border.State.White
-	if room.open: return Border.State.Gray
+	if room.visited: return Border.State.Gray
+	if room.open: return Border.State.White
 	return Border.State.Dark
 
 

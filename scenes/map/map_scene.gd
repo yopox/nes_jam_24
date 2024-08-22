@@ -1,3 +1,4 @@
+@icon("res://assets/icons/node_2D/icon_map.png")
 class_name MapScene extends Node2D
 
 @onready var graph: Node2D = $Graph
@@ -16,8 +17,8 @@ var dx = (Values.WIDTH - 16 * Values.MAP_WIDTH) / 2 + 8
 
 
 func _ready():
-	p1_stats.set_fighter(Team.hero1)
-	p2_stats.set_fighter(Team.hero2)
+	p1_stats.set_fighter(Progress.hero1)
+	p2_stats.set_fighter(Progress.hero2)
 	update_name()
 	update_map()
 	update_links()
@@ -154,8 +155,7 @@ func move() -> void:
 
 
 func update_name() -> void:
-	var map: Map = Progress.map
-	var room: Room = map.rooms[Util.key([map.selected.y, map.selected.x])]
+	var room: Room = Progress.map.selected_room()
 	if room.open:
 		room_name.text = Text.room_name(room.type)
 	else:
@@ -164,8 +164,14 @@ func update_name() -> void:
 
 func _on_action_box_selected(first):
 	if first:
-		# TODO: Proceed to event
-		pass
+		var room: Room = Progress.map.selected_room()
+		var type: Room.Type = room.type
+		match type:
+			Room.Type.None: pass
+			Room.Type.Fight:
+				var manager: Manager = get_parent().get_parent()
+				manager.change_scene(Manager.Scenes.Fight)
+				
 	else:
 		var manager: Manager = get_parent().get_parent()
 		manager.change_scene(Manager.Scenes.Perks)

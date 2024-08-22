@@ -80,11 +80,11 @@ func perk_text(perk: Perks.Type):
 			return ["Regeneration", "Heal 2% HP at the beginning of each turn."]
 
 
-func perk_name(perk: Perks.Type, hero: Fighter) -> String:
+func perk_name(perk: Perks.Type, fighter: Fighter) -> String:
 	var texts = perk_text(perk)
 	var cost = Perks.costs[perk]
 	var point = "pts" if cost != 1 else "pt"
-	var owned = 0 if not hero.perks.has(perk) else hero.perks[perk]
+	var owned = 0 if not fighter.stats.perks.has(perk) else fighter.stats.perks[perk]
 	var quantity = Perks.quantities[perk]
 	var max_owned = str(quantity) if quantity >= 0 else "inf"
 	return "%s • %s %s • %s / %s" % [texts[0], cost, point, owned, max_owned]
@@ -96,7 +96,7 @@ func perk_description(perk: Perks.Type) -> String:
 
 func room_name(type: Room.Type) -> String:
 	match type:
-		Room.Type.None: return ""
+		Room.Type.None: return "–"
 		Room.Type.Fight: return "Fight"
 		Room.Type.Boss: return "Boss"
 		Room.Type.Inn: return "Inn"
